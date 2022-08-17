@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
     private string _direction;
     private RaycastHit2D _information;
     //public Vector2 Position;
-    //private hexNode _tile;
+    private GameObject _tile;
     private void Start()
     {
         _camera = Camera.main;
@@ -33,13 +33,13 @@ public class InputManager : MonoBehaviour
                 _information = Physics2D.Raycast(_touchPosWorld, _camera.transform.forward, Mathf.Infinity);
 
                 Debug.Log(_information);
-                //if (!_information.collider) return;
+                if (!_information.collider)
+                {
+                    Debug.Log("no collider detected");
+                    return;
+                }
             }
-            if(!_information.collider.CompareTag("Hexagons"))
-            {
-                return;
-            }
-            //_tile = _information.transform.gameObject;
+    
             else if(_theTouch.phase == TouchPhase.Moved || _theTouch.phase == TouchPhase.Ended)
             {
                 _touchEndPosition = _theTouch.position;
