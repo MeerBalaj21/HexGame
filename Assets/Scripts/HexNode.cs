@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class HexNode : MonoBehaviour
 {
-    public int x;
-    public int y;
+    [SerializeField] private int _x;
+    [SerializeField] private int _y;
+    [SerializeField] private int _value;
+    public List<Sprite> _sprites;
+    private SpriteRenderer SP;
 
-    public void SetX(int _x)
+    public void SetX(int x)
     {
-        x = _x;
+        _x = x;
     }
-    public void SetY(int _y)
+    public void SetY(int y)
     {
-        y = _y;
+        _y = y;
+    }
+    public void SetValue(int v)
+    {
+        _value = v;
     }
 
+    private void SpriteChanger()
+    {
+        SP = gameObject.GetComponent<SpriteRenderer>();
+        SP.sprite = _sprites[_value];
+    }
 }

@@ -11,9 +11,8 @@ public class LevelGeneration : MonoBehaviour
     [SerializeField] private float _xOffset;
     [SerializeField] private float _yOffset;
 
-    public HexNode _hex;
-
-
+    private HexNode _hex;
+   
     private void Start()
     {
         GridSetup();
@@ -43,10 +42,10 @@ public class LevelGeneration : MonoBehaviour
                 _hex = HexGo.GetComponent<HexNode>();
                 _hex.SetX(x);
                 _hex.SetY(y);
+                _hex.SetValue(0);
                 HexGo.transform.SetParent(this.transform);
 
             }
         }
-    
     }
 }
