@@ -4,31 +4,42 @@ using TMPro;
 
 public class InputManager : MonoBehaviour
 {
-    public TMP_Text PhaseTextDisplay;
+    public TMP_Text DirectionText;
     private Touch _theTouch;
-    private float _timeTouchEnded;
-    private float _displayTime = 0.5f;
+    private Vector2 _touchStartPosition, _touchEndPosition;
+    private string _direction;
 
     private void Update()
     {
         if(Input.touchCount > 0)
         {
             _theTouch = Input.GetTouch(0);
-            if(_theTouch.phase == TouchPhase.Ended)
+            if(_theTouch.phase == TouchPhase.Began)
             {
-                PhaseTextDisplay.text = _theTouch.phase.ToString();
-                _timeTouchEnded = Time.time;
+                _touchStartPosition = _theTouch.position;
             }
-            else if(Time.time - _timeTouchEnded > _displayTime)
+            else if(_theTouch.phase == TouchPhase.Moved || _theTouch.phase == TouchPhase.Ended)
             {
-                PhaseTextDisplay.text = _theTouch.phase.ToString();
-                _timeTouchEnded = Time.time;
+                _touchEndPosition = _theTouch.position;
+
+                float x = _touchEndPosition.x - _touchStartPosition.x;
+                float y = _touchEndPosition.y - _touchStartPosition.y;
+
+                if(Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                {
+                    _direction = "Tapped";
+                }
+                else if (Mathf.Abs(x) > Mathf.Abs(y))
+                {
+                    _direction = x > 0 ? "Right" : "Left";
+                }
+                else
+                {
+                    _direction = y > 0 ? "Up" : "Down";
+                }
             }
         }
-        else if(Time.time - _timeTouchEnded > _displayTime)
-        {
-            PhaseTextDisplay.text = " ";
-        }
+        DirectionText.text = _direction;
     }
 
 }

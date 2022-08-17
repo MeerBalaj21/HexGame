@@ -706,7 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a437c7d07a9f346c7b169314eb2bee4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PhaseTextDisplay: {fileID: 864640777}
+  DirectionText: {fileID: 864640777}
 --- !u!4 &1805977664
 Transform:
   m_ObjectHideFlags: 0
