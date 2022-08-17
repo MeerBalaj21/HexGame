@@ -40,8 +40,7 @@ public class LevelGeneration : MonoBehaviour
 
                 HexGo.name = "Hex_" + x + ", " + y;
                 _hex = HexGo.GetComponent<HexNode>();
-                _hex.SetX(x);
-                _hex.SetY(y);
+                _hex.SetXY(new Vector2(x,y));
                 _hex.SetValue(0);
                 HexGo.transform.SetParent(this.transform);
 
