@@ -6,10 +6,11 @@ public abstract class InputState
 {
 
     public IInputState Listener;
-
-    public InputState(IInputState listener)
+    public IInput Input;
+    public InputState(IInputState listener, IInput input)
     {
         Listener = listener;
+        Input = input;
     }
 
     public abstract void Begin();

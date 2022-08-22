@@ -7,7 +7,7 @@ public class Inputs : MonoBehaviour, IInputState
     private Vector2 _screenPosition, _startTouchPos, _endTouchPos;
     private Vector3 _worldPosition;
     private InputState _state;
-    private IInput _input;
+    protected IInput _input;
     private Touch _touch;
     private bool _isDraggable;
     //private Draggable _lastDragged;
@@ -15,7 +15,7 @@ public class Inputs : MonoBehaviour, IInputState
     public void Initialised(Tray Input)
     {
         _input = Input;
-        ChangeState(new IdleInputState(this));
+        ChangeState(new IdleInputState(this,Input));
     }
     public void ChangeState(InputState state)
     {
@@ -38,12 +38,11 @@ public class Inputs : MonoBehaviour, IInputState
                 //_startTouchPos = _touch.position;
                 OnStart();
             }
-            if (_touch.phase == TouchPhase.Moved)
+            else if (_touch.phase == TouchPhase.Moved)
             {
-
                 _state.Move();
             }
-            if (_touch.phase == TouchPhase.Ended)
+            else if (_touch.phase == TouchPhase.Ended)
             {
                 _state.End();
             }

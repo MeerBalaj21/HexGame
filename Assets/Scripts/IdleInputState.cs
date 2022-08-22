@@ -5,13 +5,13 @@ using UnityEngine;
 public class IdleInputState : InputState
 {
 
-    public IdleInputState(IInputState listener) : base(listener)
+    public IdleInputState(IInputState listener, IInput input) : base(listener, input)
     {
 
     }
     override public void Begin()
     {
-        Listener.ChangeState(new CallibrationInputState(this.Listener));
+        Listener.ChangeState(new CallibrationInputState(this.Listener,this.Input));
     }
 
     public override void End()
