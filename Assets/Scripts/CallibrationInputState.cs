@@ -11,13 +11,15 @@ public class CallibrationInputState : InputState
 
     public override void Begin()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void End()
     {
         //base.End();
         //Listener.TapDetected
+        Debug.Log("tapped");
+        Listener.ChangeState(new IdleInputState(this.Listener));
     }
 
     public override void Move()

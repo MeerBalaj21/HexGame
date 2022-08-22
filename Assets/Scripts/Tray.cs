@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tray : IInput
+public class Tray : MonoBehaviour, IInput
 {
     public void Tap()
     {
