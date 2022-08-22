@@ -6,9 +6,15 @@ public class Tray : MonoBehaviour, IInput
 {
     private Vector2 _startPos;
     private Vector2 _endPos;
-    [SerializeField] private Camera _cam;
+    private Vector2 _defaultPos;
 
+    [SerializeField] private Camera _cam;
     [SerializeField] private float _timer = 0;
+
+    private void Start()
+    {
+        _defaultPos = transform.localPosition;
+    }
 
     public void Tap(Touch touch)
     {
@@ -29,6 +35,13 @@ public class Tray : MonoBehaviour, IInput
     }
     public void Drop(Touch touch)
     {
+        var dist = Vector2.Distance(_startPos, _defaultPos);
+        _startPos = transform.position;
+        _endPos = _defaultPos;
+
+        //Debug.LogError(_endPos);
+        //Debug.LogError(_startPos);
+        transform.position = Vector2.Lerp(_startPos, _endPos, Time.deltaTime * 2 + dist);
 
     }
 }
