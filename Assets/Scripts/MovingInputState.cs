@@ -8,20 +8,22 @@ public class MovingInputState : InputState
     {
 
     }
-    public override void Move()
+    public override void Move(Touch touch)
     {
+        Input.Drag(touch);
         //base.Move();
         //Drag Move
     }
-    public override void End()
+    public override void End(Touch touch)
     {
         //base.End();
         //Drag End
+        
         Debug.Log("end of moving state is called");
         Listener.ChangeState(new IdleInputState(this.Listener,this.Input));
     }
 
-    public override void Begin()
+    public override void Begin(Touch touch)
     {
         
     }

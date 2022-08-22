@@ -9,21 +9,21 @@ public class CallibrationInputState : InputState
 
     }
 
-    public override void Begin()
+    public override void Begin(Touch touch)
     {
         
     }
 
-    public override void End()
+    public override void End(Touch touch)
     {
         //base.End();
         //Listener.TapDetected
-        Input.Tap();
+        Input.Tap(touch);
         Debug.Log("tapped");
         Listener.ChangeState(new IdleInputState(this.Listener, this.Input));
     }
 
-    public override void Move()
+    public override void Move(Touch touch)
     {
         //base.Move();
         Listener.ChangeState(new MovingInputState(this.Listener, this.Input));

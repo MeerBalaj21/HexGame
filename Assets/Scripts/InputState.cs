@@ -13,8 +13,8 @@ public abstract class InputState
         Input = input;
     }
 
-    public abstract void Begin();
-    public abstract void Move();
-    public abstract void End();
+    public abstract void Begin(Touch touch);
+    public abstract void Move(Touch touch);
+    public abstract void End(Touch touch);
  
 }

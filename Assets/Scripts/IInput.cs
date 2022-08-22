@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IInput
 {
-    public void Tap();
-    public void Drag();
-    public void Drop();
+    public void Tap(Touch touch);
+    public void Drag(Touch touch);
+    public void Drop(Touch touch);
 }

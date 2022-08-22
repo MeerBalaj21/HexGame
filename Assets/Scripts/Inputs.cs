@@ -21,10 +21,6 @@ public class Inputs : MonoBehaviour, IInputState
     {
         _state = state;
     }
-    public void OnStart()
-    {
-        _state.Begin();
-    }
 
     private void Update()
     {
@@ -36,15 +32,15 @@ public class Inputs : MonoBehaviour, IInputState
             if (_touch.phase == TouchPhase.Began)
             {
                 //_startTouchPos = _touch.position;
-                OnStart();
+                _state.Begin(_touch);
             }
             else if (_touch.phase == TouchPhase.Moved)
             {
-                _state.Move();
+                _state.Move(_touch);
             }
             else if (_touch.phase == TouchPhase.Ended)
             {
-                _state.End();
+                _state.End(_touch);
             }
 
 

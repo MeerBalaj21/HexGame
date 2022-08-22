@@ -9,17 +9,17 @@ public class IdleInputState : InputState
     {
 
     }
-    override public void Begin()
+    override public void Begin(Touch touch)
     {
         Listener.ChangeState(new CallibrationInputState(this.Listener,this.Input));
     }
 
-    public override void End()
+    public override void End(Touch touch)
     {
         
     }
 
-    public override void Move()
+    public override void Move(Touch touch)
     {
         
     }
