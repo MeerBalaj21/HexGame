@@ -6,10 +6,12 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private Inputs _iS;
     [SerializeField] private Tray _tray;
+    [SerializeField] private LevelGeneration _lG;
 
     private void Start()
     {
         _iS.Initialised(_tray);
+        _tray.Initialised(_lG);
     }
 
 }

@@ -18,7 +18,7 @@ public class MovingInputState : InputState
     {
         //base.End();
         //Drag End
-        Input.Drop(touch);
+        Input.Snap(touch);
         Debug.Log("end of moving state is called");
         Listener.ChangeState(new IdleInputState(this.Listener,this.Input));
     }

@@ -11,6 +11,7 @@ public class IdleInputState : InputState
     }
     override public void Begin(Touch touch)
     {
+        
         Listener.ChangeState(new CallibrationInputState(this.Listener,this.Input));
     }
 

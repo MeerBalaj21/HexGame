@@ -8,6 +8,7 @@ public class HexNode : MonoBehaviour
     private SpriteRenderer SP;
 
     [SerializeField] private Vector2 _xy;
+    public Vector2 _locations;
     [SerializeField] private int _value;
     [SerializeField] private bool _isGrab;
 
@@ -20,7 +21,10 @@ public class HexNode : MonoBehaviour
     {
         _value = v;
     }
-
+    public void SetLocations(Vector2 loc)
+    {
+        _locations = loc;
+    }
     private void SpriteChanger()
     {
         SP = gameObject.GetComponent<SpriteRenderer>();

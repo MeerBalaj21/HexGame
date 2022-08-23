@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Inputs : MonoBehaviour, IInputState
 {
-    private Vector2 _screenPosition, _startTouchPos, _endTouchPos;
-    private Vector3 _worldPosition;
+    private Vector2 _startTouchPos, _endTouchPos;
+    private float _dist;
     private InputState _state;
     protected IInput _input;
     private Touch _touch;
     private bool _isDraggable;
-    //private Draggable _lastDragged;
+    public Camera _cam;
+
+    private void Start()
+    {
+        _startTouchPos = new Vector2(2f, -4.75f);
+    }
 
     public void Initialised(Tray Input)
     {
@@ -26,13 +31,17 @@ public class Inputs : MonoBehaviour, IInputState
     {
         if(Input.touchCount > 0)
         {
-
             _touch = Input.GetTouch(0);
             ////Debug.Log(Input.touchCount);
             if (_touch.phase == TouchPhase.Began)
             {
-                //_startTouchPos = _touch.position;
-                _state.Begin(_touch);
+
+                _dist = Vector2.Distance(_startTouchPos,_cam.ScreenToWorldPoint(_touch.position));
+                if(_dist < 1.5f)
+                {
+                    _state.Begin(_touch);
+
+                }
             }
             else if (_touch.phase == TouchPhase.Moved)
             {
@@ -43,40 +52,8 @@ public class Inputs : MonoBehaviour, IInputState
                 _state.End(_touch);
             }
 
-
-
-
-            //if(_touch.phase == TouchPhase.Moved || _touch.phase == TouchPhase.Ended)
-            //{
-            //    _endTouchPos = _touch.position;
-
-            //    float x = _endTouchPos.x - _startTouchPos.x;
-            //    float y = _endTouchPos.y - _startTouchPos.y;
-
-            //    if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
-            //    {
-            //        //_input.Tap();
-            //        _state.End();
-            //    }
-            //    else
-            //    {
-            //        _state.Move();
-            //        //_input.Drag();
-            //    }
-
-            //}
-
-            // _screenPosition = Input.GetTouch(0).position;
         }
-        //else
-        //{
-        //    return;
-        //}
-        //_worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
-
-
+        
     }
-
-
 
 }

@@ -16,8 +16,6 @@ public class CallibrationInputState : InputState
 
     public override void End(Touch touch)
     {
-        //base.End();
-        //Listener.TapDetected
         Input.Tap(touch);
         Debug.Log("tapped");
         Listener.ChangeState(new IdleInputState(this.Listener, this.Input));
@@ -25,7 +23,6 @@ public class CallibrationInputState : InputState
 
     public override void Move(Touch touch)
     {
-        //base.Move();
         Listener.ChangeState(new MovingInputState(this.Listener, this.Input));
     }
 }
