@@ -5,12 +5,12 @@ using UnityEngine;
 public class HexNode : MonoBehaviour
 {
     public List<Sprite> _sprites;
+    public Vector2 _locations;
     private SpriteRenderer SP;
 
     [SerializeField] private Vector2 _xy;
-    public Vector2 _locations;
     [SerializeField] private int _value;
-    [SerializeField] private bool _isGrab;
+    public bool _isGrab = false;
 
 
     public void SetXY(Vector2 xy)
@@ -24,6 +24,10 @@ public class HexNode : MonoBehaviour
     public void SetLocations(Vector2 loc)
     {
         _locations = loc;
+    }
+    public void SetGrab()
+    {
+        _isGrab = true;
     }
     private void SpriteChanger()
     {

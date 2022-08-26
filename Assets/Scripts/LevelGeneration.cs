@@ -19,19 +19,112 @@ public class LevelGeneration : MonoBehaviour
         GridSetup();
     }
 
-    public Vector3 GridFind(Vector2 pos)
+    public Vector3 GridFind(Vector2 pos, Vector2 delta)
     {
-        foreach(var pair in HexDic)
+        
+        if(delta == Vector2.zero)
         {
-            float distance = Vector2.Distance(pos, pair.Value._locations);
-            if (distance < 0.5f)
+            foreach (var pair in HexDic)
             {
-                Vector2 loc = pair.Value._locations;
-                return loc;
+                float distance = Vector2.Distance(pos, pair.Value._locations);
+                if (distance < 0.5f && (pair.Value._isGrab == false))
+                {
+                    Vector2 loc = pair.Value._locations;
+                    pair.Value.SetGrab();
+                    Debug.Log("delta zero");
+                    return loc;
+                }
             }
-            
         }
-        return new Vector3(-1, -1, -1); ;
+        else if(delta != Vector2.zero)
+        {
+            foreach (var pair in HexDic)
+            {
+                float distance = Vector2.Distance(pos, pair.Value._locations);
+                if (distance < 0.5f && (pair.Value._isGrab == false))
+                {
+                    Vector2 loc = pair.Value._locations;
+                    
+                    loc = loc + delta;
+                   
+                    foreach( var secondPair in HexDic)
+                    {
+                        if ((loc - secondPair.Value._locations).magnitude < 0.45 && secondPair.Value._isGrab == false)
+                        {
+                            Debug.Log("found" + loc);
+                            pair.Value.SetGrab();
+                            secondPair.Value.SetGrab();
+                            return loc;
+                        }
+                    }
+                }
+            }
+        }
+        return new Vector3(-1, -1, -1);        
+    }
+
+
+    public void GridHighLight(Vector2 pos, Vector2 delta)
+    {
+        if(delta == Vector2.zero)
+        {
+            foreach (var pair in HexDic)
+            {
+                float distance = Vector2.Distance(pos, pair.Value._locations);
+                if (distance < 0.4f && (pair.Value._isGrab == false))
+                {
+                    pair.Value.GetComponent<SpriteRenderer>().color = Color.grey;
+                }
+                else if (distance >= 0.4f)
+                {
+                    pair.Value.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+        }
+        else if(delta != Vector2.zero)
+        {
+            HexNode first = null;
+            HexNode second = null;
+
+            foreach (var pair in HexDic)
+            {
+                float distance = Vector2.Distance(pos, pair.Value._locations);
+                if (distance < 0.5f && (pair.Value._isGrab == false))
+                {
+                    first = pair.Value;
+
+                    Vector2 loc = pair.Value._locations;
+                    loc = loc + delta;
+                    foreach (var secondPair in HexDic)
+                    {
+                        if (first != secondPair.Value)
+                        {
+                            if ((loc - secondPair.Value._locations).magnitude < 0.45 && secondPair.Value._isGrab == false)
+                            {
+                                second = secondPair.Value;
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            foreach(var pair in HexDic)
+            {
+                if (first != null && second != null && (pair.Value == first || pair.Value == second))
+                {
+                    pair.Value.GetComponent<SpriteRenderer>().color = Color.gray;
+                }
+                else
+                {
+                    pair.Value.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+            }
+        }
+        
+        
     }
     private void GridSetup()
     {

@@ -9,7 +9,7 @@ public class Inputs : MonoBehaviour, IInputState
     private InputState _state;
     protected IInput _input;
     private Touch _touch;
-    private bool _isDraggable;
+    //private bool _isDraggable;
     public Camera _cam;
 
     private void Start()
@@ -32,7 +32,6 @@ public class Inputs : MonoBehaviour, IInputState
         if(Input.touchCount > 0)
         {
             _touch = Input.GetTouch(0);
-            ////Debug.Log(Input.touchCount);
             if (_touch.phase == TouchPhase.Began)
             {
 

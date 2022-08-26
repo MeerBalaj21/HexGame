@@ -8,5 +8,5 @@ public interface IInput
     public void Drag(Touch touch);
     public void Drop(Touch touch);
     public void Snap(Touch touch);
-
+    //public void SnapTwo(Touch touch);
 }
