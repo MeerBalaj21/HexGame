@@ -56,7 +56,7 @@ public class Tray : MonoBehaviour, IInput
 
     public void Drag(Touch touch)
     {
-        //Initialise();
+        Initialise();
         if(transform.childCount == 1)
         {
             Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
@@ -82,8 +82,8 @@ public class Tray : MonoBehaviour, IInput
         var dist = Vector2.Distance(_startPos, _defaultPos);
         _startPos = transform.position;
         _endPos = _defaultPos;
-        transform.position = Vector2.Lerp(_startPos, _endPos, Time.deltaTime * 2 + dist);
-
+        //transform.position = Vector2.Lerp(_startPos, _endPos, Time.deltaTime * 2 + dist);
+        transform.position = _endPos;
     }
 
     public void Snap(Touch touch)
@@ -104,8 +104,10 @@ public class Tray : MonoBehaviour, IInput
                 _child.transform.SetParent(LG.transform);
 
                 transform.position = _BaseTrayPos;
-                GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
-                Hex.transform.SetParent(this.transform);
+
+                HexSpawner();
+                //GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
+                //Hex.transform.SetParent(this.transform);
                 //Hex.transform.position = Vector2.zero;
             }
             else
@@ -142,14 +144,15 @@ public class Tray : MonoBehaviour, IInput
             _childTwo.transform.SetParent(LG.transform);
             transform.position = _BaseTrayPos;
 
-            GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
-            GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
+            HexSpawner();
+            //GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
+            //GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
 
-            Hex.transform.SetParent(this.transform);
-            HexTwo.transform.SetParent(this.transform);
+            //Hex.transform.SetParent(this.transform);
+            //HexTwo.transform.SetParent(this.transform);
 
-            Hex.transform.localPosition = new Vector2(-0.5f, 0f);
-            HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
+            //Hex.transform.localPosition = new Vector2(-0.5f, 0f);
+            //HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
 
         }
         else
@@ -163,6 +166,23 @@ public class Tray : MonoBehaviour, IInput
 
     public void HexSpawner()
     {
+        int ran = Random.Range(0, 2);
+        if(ran == 1)
+        {
+            GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
+            GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
+
+            Hex.transform.SetParent(this.transform);
+            HexTwo.transform.SetParent(this.transform);
+
+            Hex.transform.localPosition = new Vector2(-0.5f, 0f);
+            HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
+        }
+        else
+        {
+            GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
+            Hex.transform.SetParent(this.transform);
+        }
 
     }
 
