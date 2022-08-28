@@ -29,9 +29,9 @@ public class HexNode : MonoBehaviour
     {
         _isGrab = true;
     }
-    private void SpriteChanger()
+    public void SpriteChanger(int index)
     {
         SP = gameObject.GetComponent<SpriteRenderer>();
-        SP.sprite = _sprites[_value];
+        SP.sprite = _sprites[index];
     }
 }

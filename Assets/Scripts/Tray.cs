@@ -25,19 +25,32 @@ public class Tray : MonoBehaviour, IInput
     {
         _CheckCondtion = new Vector3(-1, -1, -1);
         _BaseTrayPos = new Vector2(2, -4.75f);
+        HexSpawner();
         Initialise();
-
     }
 
     public void Initialise()
     {
         //_defaultPos = transform.localPosition;
-        _child = transform.GetChild(0).gameObject;
-        _childPos = _child.transform.localPosition;
         if (transform.childCount > 1)
         {
+            _child = transform.GetChild(0).gameObject;
+            _childPos = new Vector2(-0.5f, 0f);
+            _child.transform.localPosition = _childPos;
+
             _childTwo = transform.GetChild(1).gameObject;
-            _childTwoPos = transform.localPosition;
+            //_childTwoPos = transform.localPosition;
+            _childTwoPos = new Vector2(0.5f, 0f);
+            _childTwo.transform.localPosition = _childTwoPos;
+
+        }
+        else
+        {
+           
+            _child = transform.GetChild(0).gameObject;
+            //_childPos = _child.transform.localPosition;
+            _childPos = new Vector2(0f, 0f);
+            _child.transform.localPosition = _childPos;
         }
     }
 
@@ -48,12 +61,28 @@ public class Tray : MonoBehaviour, IInput
 
     public void Tap(Touch touch)
     {
-        Initialise();
-        transform.Rotate(0f, 0f, 60f);
-        _child.transform.Rotate(0f, 0f, -60f);
-        _childTwo.transform.Rotate(0f, 0f, -60f);
+        RotateTile();
+        //transform.Rotate(0f, 0f, 60f);
+        //_child.transform.Rotate(0f, 0f, -60f);
+        //_childTwo.transform.Rotate(0f, 0f, -60f);
     }
 
+    public void RotateTile()
+    {
+
+        Initialise();
+        //transform.position = _defaultPos;
+        transform.Rotate(0f, 0f, 60f);
+        if(transform.childCount > 1)
+        {
+            _child.transform.Rotate(0f, 0f, -60f);
+            _childTwo.transform.Rotate(0f, 0f, -60f);
+        }
+        else
+        {
+            _child.transform.Rotate(0f, 0f, -60f);
+        }
+    }
     public void Drag(Touch touch)
     {
         Initialise();
@@ -103,7 +132,7 @@ public class Tray : MonoBehaviour, IInput
                 _child = transform.GetChild(0).gameObject;
                 _child.transform.SetParent(LG.transform);
 
-                transform.position = _BaseTrayPos;
+                //transform.position = _BaseTrayPos;
 
                 HexSpawner();
                 //GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
@@ -142,7 +171,7 @@ public class Tray : MonoBehaviour, IInput
 
             _child.transform.SetParent(LG.transform);
             _childTwo.transform.SetParent(LG.transform);
-            transform.position = _BaseTrayPos;
+            
 
             HexSpawner();
             //GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
@@ -166,14 +195,29 @@ public class Tray : MonoBehaviour, IInput
 
     public void HexSpawner()
     {
+        
         int ran = Random.Range(0, 2);
-        if(ran == 1)
+        int randomHex = Random.Range(0, 4);
+        int randomHexTwo = Random.Range(0, 4);
+
+        transform.position = _BaseTrayPos;
+
+        if (ran == 1)
         {
             GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
             GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
-
+            
             Hex.transform.SetParent(this.transform);
             HexTwo.transform.SetParent(this.transform);
+
+            var random = Random.Range(0, 3);
+            for(int i = 0; i < random; i++)
+            {
+                RotateTile();
+            }
+
+            Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
+            HexTwo.GetComponent<HexNode>().SpriteChanger(randomHexTwo);
 
             Hex.transform.localPosition = new Vector2(-0.5f, 0f);
             HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
@@ -182,6 +226,9 @@ public class Tray : MonoBehaviour, IInput
         {
             GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
             Hex.transform.SetParent(this.transform);
+            Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
+            Hex.transform.localPosition = new Vector2(0f, 0f);
+
         }
 
     }
