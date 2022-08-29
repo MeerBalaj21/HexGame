@@ -86,16 +86,21 @@ public class Tray : MonoBehaviour, IInput
     public void Drag(Touch touch)
     {
         Initialise();
+        
         if(transform.childCount == 1)
         {
             Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
             offset.y = offset.y + 1;
             LG.GridHighLight(offset, Vector2.zero);
+            transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
+
         }
         else if( transform.childCount != 1)
         {
             Vector2 delta = _childTwo.transform.position - _child.transform.position;
             LG.GridHighLight(_child.transform.position, delta);
+            transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
+            transform.GetChild(1).GetComponent<HexNode>().SortLayerOrder();
         }
 
         var endPoint = _cam.ScreenToWorldPoint(touch.position);
@@ -130,8 +135,8 @@ public class Tray : MonoBehaviour, IInput
                 Initialise();
                 transform.position = _lastPos;
                 _child = transform.GetChild(0).gameObject;
+                _child.transform.GetComponent<HexNode>().ResetLayerOrder();
                 _child.transform.SetParent(LG.transform);
-
                 //transform.position = _BaseTrayPos;
 
                 HexSpawner();
@@ -169,6 +174,9 @@ public class Tray : MonoBehaviour, IInput
             _child.transform.position = _lastPos - (Vector3)delta;
             _childTwo.transform.position = _lastPos;
 
+
+            _child.transform.GetComponent<HexNode>().ResetLayerOrder();
+            _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
             _child.transform.SetParent(LG.transform);
             _childTwo.transform.SetParent(LG.transform);
             

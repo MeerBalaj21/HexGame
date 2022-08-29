@@ -6,7 +6,7 @@ public class HexNode : MonoBehaviour
 {
     public List<Sprite> _sprites;
     public Vector2 _locations;
-    private SpriteRenderer SP;
+    private SpriteRenderer _sP;
 
     [SerializeField] private Vector2 _xy;
     [SerializeField] private int _value;
@@ -31,7 +31,15 @@ public class HexNode : MonoBehaviour
     }
     public void SpriteChanger(int index)
     {
-        SP = gameObject.GetComponent<SpriteRenderer>();
-        SP.sprite = _sprites[index];
+        _sP = gameObject.GetComponent<SpriteRenderer>();
+        _sP.sprite = _sprites[index];
+    }
+    public void SortLayerOrder()
+    {
+        _sP.sortingOrder = 2;
+    }
+    public void ResetLayerOrder()
+    {
+        _sP.sortingOrder = 1;
     }
 }
