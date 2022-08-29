@@ -73,13 +73,14 @@ public class Tray : MonoBehaviour, IInput
         Initialise();
         //transform.position = _defaultPos;
         transform.Rotate(0f, 0f, 60f);
-        if(transform.childCount > 1)
+        if(transform.childCount == 1)
         {
             _child.transform.Rotate(0f, 0f, -60f);
-            _childTwo.transform.Rotate(0f, 0f, -60f);
+            
         }
         else
         {
+            _childTwo.transform.Rotate(0f, 0f, -60f);
             _child.transform.Rotate(0f, 0f, -60f);
         }
     }
@@ -209,20 +210,31 @@ public class Tray : MonoBehaviour, IInput
         int randomHexTwo = Random.Range(0, 4);
 
         transform.position = _BaseTrayPos;
-
+        //transform.rotation = Quaternion.identity; 
         if (ran == 1)
         {
             GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
             GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
-            
+
+            _child = Hex;
+            _childTwo = HexTwo;
+
             Hex.transform.SetParent(this.transform);
             HexTwo.transform.SetParent(this.transform);
 
+            //_child.transform.rotation = Quaternion.identity;
+            //_childTwo.transform.rotation = Quaternion.identity;
+
             var random = Random.Range(0, 3);
-            for(int i = 0; i < random; i++)
+            for (int i = 0; i < random; i++)
             {
                 RotateTile();
+                //transform.Rotate(0, 0, 60 * i);
+                //_child.transform.localRotation = Quaternion.Euler(0,0,-(60 * i));
+                //_childTwo.transform.localRotation = Quaternion.Euler(0, 0, -(60 * i));
+
             }
+
 
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
             HexTwo.GetComponent<HexNode>().SpriteChanger(randomHexTwo);
@@ -233,12 +245,67 @@ public class Tray : MonoBehaviour, IInput
         else
         {
             GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
+            _child = Hex;
+            //_child.transform.rotation = Quaternion.identity;
             Hex.transform.SetParent(this.transform);
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
             Hex.transform.localPosition = new Vector2(0f, 0f);
 
         }
 
+    }
+
+    public void ResetRotation()
+    {
+        transform.rotation = Quaternion.identity;
+        if (transform.childCount == 1)
+        {
+            _child.transform.rotation = Quaternion.identity;
+
+        }
+        else
+        {
+            _child.transform.rotation = Quaternion.identity;
+            _childTwo.transform.rotation = Quaternion.identity;
+        }
+
+    }
+
+    public void SkipTile()
+    {
+        //GameObject temp = null;
+        //transform.rotation = Quaternion.identity;
+
+        GameObject _childTemp = null;
+        GameObject _childTwoTemp = null;
+
+        if (transform.childCount == 1)
+        {
+            _childTemp = transform.GetChild(0).gameObject;
+        }
+        else
+        {
+            _childTemp = transform.GetChild(0).gameObject;
+            _childTwoTemp = transform.GetChild(1).gameObject;    
+        }
+
+        transform.DetachChildren();
+        if (transform.childCount == 1)
+        {
+            
+            Destroy(_childTemp);
+            
+        }
+        else
+        {
+            
+            Destroy(_childTemp);
+            Destroy(_childTwoTemp);
+        }
+        //transform.Rotate(0, 0, 0);
+        HexSpawner();
+        //ResetRotation();
+        
     }
 
 }
