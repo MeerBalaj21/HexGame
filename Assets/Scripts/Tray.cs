@@ -14,6 +14,10 @@ public class Tray : MonoBehaviour, IInput
     private GameObject _childTwo;
     private Vector2 _childPos, _childTwoPos;
     public LevelGeneration LG;
+    //public GameObject SpawnCircle;
+    public GameObject SpawnCircleArrowOne;
+    public GameObject SpawnCircleArrowTwo;
+
     [SerializeField] private GameObject _hex;
     [SerializeField] private Camera _cam;
     
@@ -25,6 +29,7 @@ public class Tray : MonoBehaviour, IInput
     {
         _CheckCondtion = new Vector3(-1, -1, -1);
         _BaseTrayPos = new Vector2(2, -4.75f);
+        
         HexSpawner();
         Initialise();
     }
@@ -72,16 +77,17 @@ public class Tray : MonoBehaviour, IInput
 
         Initialise();
         //transform.position = _defaultPos;
-        transform.Rotate(0f, 0f, 60f);
+        transform.Rotate(0f, 0f, -60f);
+        //SpawnCircle.transform.Rotate(0f, 0f, -60f);
         if(transform.childCount == 1)
         {
-            _child.transform.Rotate(0f, 0f, -60f);
+            _child.transform.Rotate(0f, 0f, 60f);
             
         }
         else
         {
-            _childTwo.transform.Rotate(0f, 0f, -60f);
-            _child.transform.Rotate(0f, 0f, -60f);
+            _childTwo.transform.Rotate(0f, 0f, 60f);
+            _child.transform.Rotate(0f, 0f, 60f);
         }
     }
     public void Drag(Touch touch)
@@ -109,7 +115,7 @@ public class Tray : MonoBehaviour, IInput
         _startPos = transform.position;
         _endPos = endPoint;
         _endPos.y = _endPos.y+1;
-        transform.position = Vector2.Lerp(_startPos, _endPos, Time.deltaTime * 2 + dist);       
+        transform.position = Vector2.Lerp(_startPos, _endPos, Time.deltaTime * 20 + dist);       
     }
 
     public void Drop(Touch touch)
@@ -213,6 +219,8 @@ public class Tray : MonoBehaviour, IInput
         //transform.rotation = Quaternion.identity; 
         if (ran == 1)
         {
+            SpawnCircleArrowOne.SetActive(true);
+            SpawnCircleArrowTwo.SetActive(true);
             GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
             GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
 
@@ -244,6 +252,8 @@ public class Tray : MonoBehaviour, IInput
         }
         else
         {
+            SpawnCircleArrowOne.SetActive(false);
+            SpawnCircleArrowTwo.SetActive(false);
             GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
             _child = Hex;
             //_child.transform.rotation = Quaternion.identity;

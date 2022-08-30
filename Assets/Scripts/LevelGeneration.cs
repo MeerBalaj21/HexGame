@@ -27,11 +27,12 @@ public class LevelGeneration : MonoBehaviour
             foreach (var pair in HexDic)
             {
                 float distance = Vector2.Distance(pos, pair.Value._locations);
-                if (distance < 0.5f && (pair.Value._isGrab == false))
+                if (distance <= 0.5f && (pair.Value._isGrab == false))
                 {
                     Vector2 loc = pair.Value._locations;
                     pair.Value.SetGrab();
                     Debug.Log("delta zero");
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(false);
                     return loc;
                 }
             }
@@ -41,7 +42,7 @@ public class LevelGeneration : MonoBehaviour
             foreach (var pair in HexDic)
             {
                 float distance = Vector2.Distance(pos, pair.Value._locations);
-                if (distance < 0.5f && (pair.Value._isGrab == false))
+                if (distance <= 0.5f && (pair.Value._isGrab == false))
                 {
                     Vector2 loc = pair.Value._locations;
                     
@@ -49,11 +50,15 @@ public class LevelGeneration : MonoBehaviour
                    
                     foreach( var secondPair in HexDic)
                     {
-                        if ((loc - secondPair.Value._locations).magnitude < 0.45 && secondPair.Value._isGrab == false)
+                        if ((loc - secondPair.Value._locations).magnitude < 0.49 && secondPair.Value._isGrab == false)
                         {
                             Debug.Log("found" + loc);
                             pair.Value.SetGrab();
                             secondPair.Value.SetGrab();
+
+                            pair.Value.transform.GetChild(0).gameObject.SetActive(false);
+                            secondPair.Value.transform.GetChild(0).gameObject.SetActive(false);
+                            //secondPair.Value.SpriteChanger(0);
                             return loc;
                         }
                     }
@@ -71,13 +76,17 @@ public class LevelGeneration : MonoBehaviour
             foreach (var pair in HexDic)
             {
                 float distance = Vector2.Distance(pos, pair.Value._locations);
-                if (distance < 0.4f && (pair.Value._isGrab == false))
+                if (distance <= 0.5f && (pair.Value._isGrab == false))
                 {
-                    pair.Value.GetComponent<SpriteRenderer>().color = Color.grey;
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(true);
+                    //pair.Value.GetComponent<SpriteRenderer>().color = Color.grey;
+                    //pair.Value.SpriteChanger(1);
                 }
-                else if (distance >= 0.4f)
+                else if (distance > 0.5f)
                 {
-                    pair.Value.GetComponent<SpriteRenderer>().color = Color.white;
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(false);
+                    //pair.Value.GetComponent<SpriteRenderer>().color = Color.white;
+                    //pair.Value.SpriteChanger(0);
                 }
             }
         }
@@ -89,7 +98,7 @@ public class LevelGeneration : MonoBehaviour
             foreach (var pair in HexDic)
             {
                 float distance = Vector2.Distance(pos, pair.Value._locations);
-                if (distance < 0.5f && (pair.Value._isGrab == false))
+                if (distance <= 0.5f && (pair.Value._isGrab == false))
                 {
                     first = pair.Value;
 
@@ -99,7 +108,7 @@ public class LevelGeneration : MonoBehaviour
                     {
                         if (first != secondPair.Value)
                         {
-                            if ((loc - secondPair.Value._locations).magnitude < 0.45 && secondPair.Value._isGrab == false)
+                            if ((loc - secondPair.Value._locations).magnitude < 0.49 && secondPair.Value._isGrab == false)
                             {
                                 second = secondPair.Value;
                                 break;
@@ -115,11 +124,16 @@ public class LevelGeneration : MonoBehaviour
             {
                 if (first != null && second != null && (pair.Value == first || pair.Value == second))
                 {
-                    pair.Value.GetComponent<SpriteRenderer>().color = Color.gray;
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(true);
+                    //pair.Value.SpriteChanger(1);
+                    //pair.Value.SpriteChanger(0);
+                    //pair.Value.GetComponent<SpriteRenderer>().color = Color.gray;
                 }
                 else
                 {
-                    pair.Value.GetComponent<SpriteRenderer>().color = Color.white;
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(false);
+                    //pair.Value.SpriteChanger(0);
+                    //pair.Value.GetComponent<SpriteRenderer>().color = Color.gray;
                 }
             }
         }
@@ -147,9 +161,11 @@ public class LevelGeneration : MonoBehaviour
                 string name = "Hex_" + x + ", " + y;
                 HexGo.name = name;
                 _hex = HexGo.GetComponent<HexNode>();
+
                 _hex.SetXY(new Vector2(x,y));
                 _hex.SetLocations(new Vector2(xPos, y * _yOffset));
                 _hex.SetValue(0);
+
                 HexDic.Add(name, _hex);
                 HexGo.transform.SetParent(this.transform);
 
