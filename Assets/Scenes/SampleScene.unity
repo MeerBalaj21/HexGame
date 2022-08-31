@@ -836,11 +836,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LG: {fileID: 1557065830}
-  SpawnCircle: {fileID: 323408914}
   SpawnCircleArrowOne: {fileID: 1865126295}
   SpawnCircleArrowTwo: {fileID: 1882274732}
+  searchDirection: {fileID: 1812752286}
   _hex: {fileID: 6767930964824421962, guid: a0dfd6f50ded948c6ad3bf76dbf2bdfd, type: 3}
   _cam: {fileID: 519420031}
+  H1: {fileID: 0}
+  H2: {fileID: 0}
 --- !u!1 &676235353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1157,7 @@ MonoBehaviour:
   _columns: 5
   _xOffset: 1
   _yOffset: 0.866
+  id: 0
   Hex: {fileID: 5891550975252557227, guid: 0760e88e1569147549358c6a34c34425, type: 3}
 --- !u!4 &1557065831
 Transform:
@@ -1400,6 +1403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1812752285}
   - component: {fileID: 1812752284}
+  - component: {fileID: 1812752286}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1421,6 +1425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iS: {fileID: 1139177770}
   _tray: {fileID: 647870061}
+  _sD: {fileID: 1812752286}
   _lG: {fileID: 1557065830}
 --- !u!4 &1812752285
 Transform:
@@ -1437,6 +1442,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812752286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812752283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300309ea62a544ea0a5c07e4ccd907fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HexNodeArray: []
+  ID: 0
+  count: 0
 --- !u!1 &1865126295
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,16 +14,15 @@ public class Tray : MonoBehaviour, IInput
     private GameObject _childTwo;
     private Vector2 _childPos, _childTwoPos;
     public LevelGeneration LG;
-    //public GameObject SpawnCircle;
     public GameObject SpawnCircleArrowOne;
     public GameObject SpawnCircleArrowTwo;
-
+    
+    public SearchDirection searchDirection;
+    //[SerializeField] private int ID;
     [SerializeField] private GameObject _hex;
     [SerializeField] private Camera _cam;
-    
-    //private LevelGeneration _lG;
-    //[SerializeField] private float _timer = 0;
-
+    [SerializeField] private HexNode H1;
+    [SerializeField] private HexNode H2;
 
     private void Start()
     {
@@ -32,11 +31,11 @@ public class Tray : MonoBehaviour, IInput
         
         HexSpawner();
         Initialise();
+        searchDirection.Initialise();
     }
 
     public void Initialise()
     {
-        //_defaultPos = transform.localPosition;
         if (transform.childCount > 1)
         {
             _child = transform.GetChild(0).gameObject;
@@ -44,45 +43,37 @@ public class Tray : MonoBehaviour, IInput
             _child.transform.localPosition = _childPos;
 
             _childTwo = transform.GetChild(1).gameObject;
-            //_childTwoPos = transform.localPosition;
             _childTwoPos = new Vector2(0.5f, 0f);
             _childTwo.transform.localPosition = _childTwoPos;
 
         }
         else
-        {
-           
+        {  
             _child = transform.GetChild(0).gameObject;
-            //_childPos = _child.transform.localPosition;
             _childPos = new Vector2(0f, 0f);
             _child.transform.localPosition = _childPos;
         }
     }
 
-    public void Initialised(LevelGeneration _LG)
+    public void Initialised(LevelGeneration _LG, SearchDirection _searchDirection)
     {
+        searchDirection = _searchDirection;
         LG = _LG;
     }
 
     public void Tap(Touch touch)
     {
         RotateTile();
-        //transform.Rotate(0f, 0f, 60f);
-        //_child.transform.Rotate(0f, 0f, -60f);
-        //_childTwo.transform.Rotate(0f, 0f, -60f);
     }
 
     public void RotateTile()
     {
 
         Initialise();
-        //transform.position = _defaultPos;
         transform.Rotate(0f, 0f, -60f);
-        //SpawnCircle.transform.Rotate(0f, 0f, -60f);
         if(transform.childCount == 1)
         {
-            _child.transform.Rotate(0f, 0f, 60f);
-            
+            _child.transform.Rotate(0f, 0f, 60f);    
         }
         else
         {
@@ -100,7 +91,6 @@ public class Tray : MonoBehaviour, IInput
             offset.y = offset.y + 1;
             LG.GridHighLight(offset, Vector2.zero);
             transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
-
         }
         else if( transform.childCount != 1)
         {
@@ -129,27 +119,28 @@ public class Tray : MonoBehaviour, IInput
 
     public void Snap(Touch touch)
     {
-        
-        //Debug.Log(transform.childCount);
         if (transform.childCount == 1)
         {
             Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
             offset.y = offset.y + 1;
             _lastPos = (Vector3)LG.GridFind(offset, Vector2.zero);
-            //Debug.Log(_lastPos);
             if (_lastPos != _CheckCondtion)
             {
+                searchDirection.ID = (int)LG.IndexFinder(_lastPos);
                 Initialise();
                 transform.position = _lastPos;
                 _child = transform.GetChild(0).gameObject;
+                
+                H1 = _child.GetComponent<HexNode>();
+                searchDirection.HexNodeArray[searchDirection.ID] = H1;
+                searchDirection.Count = 0;
+                searchDirection.Visited.Clear();
+                searchDirection.SearchNeighbours(searchDirection.ID);
+
                 _child.transform.GetComponent<HexNode>().ResetLayerOrder();
                 _child.transform.SetParent(LG.transform);
-                //transform.position = _BaseTrayPos;
 
                 HexSpawner();
-                //GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
-                //Hex.transform.SetParent(this.transform);
-                //Hex.transform.position = Vector2.zero;
             }
             else
             {
@@ -161,62 +152,51 @@ public class Tray : MonoBehaviour, IInput
             Debug.Log("Snap two per ata hai");
             SnapTwo(touch);
         }
-
     }
 
     public void SnapTwo(Touch touch)
     {
-
         Initialise();
         Vector2 delta = _childTwo.transform.position - _child.transform.position;
-        Debug.Log("Child 1 " + _child.transform.position);
-        Debug.Log("Child 2 " + _childTwo.transform.position);
-
-        Debug.Log("delta" + delta);
+        //Debug.Log(delta + "DELTA");
         _lastPos = (Vector3)LG.GridFind(_child.transform.position, delta);
-        Debug.Log(_lastPos + "after returning from nearest");
         if(_lastPos != _CheckCondtion)
         {
-            //Initialise();
             _child.transform.position = _lastPos - (Vector3)delta;
             _childTwo.transform.position = _lastPos;
 
+            searchDirection.ID = (int)LG.IndexFinder(_lastPos - (Vector3)delta);
+            //Debug.Log(ID + "first");
+            H1 = _child.GetComponent<HexNode>();
+            searchDirection.HexNodeArray[searchDirection.ID] = H1;
+
+            //Debug.LogError($"{_lastPos}");
+            searchDirection.ID = (int)LG.IndexFinder(_lastPos);
+            //Debug.LogError(ID + "second");
+            H2 = _childTwo.GetComponent<HexNode>();
+            searchDirection.HexNodeArray[searchDirection.ID] = H2;
 
             _child.transform.GetComponent<HexNode>().ResetLayerOrder();
             _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
             _child.transform.SetParent(LG.transform);
             _childTwo.transform.SetParent(LG.transform);
-            
 
             HexSpawner();
-            //GameObject Hex = (GameObject)Instantiate(_hex, _childPos, Quaternion.identity);
-            //GameObject HexTwo = (GameObject)Instantiate(_hex, _childTwoPos, Quaternion.identity);
-
-            //Hex.transform.SetParent(this.transform);
-            //HexTwo.transform.SetParent(this.transform);
-
-            //Hex.transform.localPosition = new Vector2(-0.5f, 0f);
-            //HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
-
         }
         else
         {
-            Debug.Log("Else of the snap two function");
+            //Debug.Log("Else of the snap two function");
             Drop(touch);
         }
-
-
     }
 
     public void HexSpawner()
-    {
-        
+    {     
         int ran = Random.Range(0, 2);
         int randomHex = Random.Range(0, 4);
         int randomHexTwo = Random.Range(0, 4);
 
         transform.position = _BaseTrayPos;
-        //transform.rotation = Quaternion.identity; 
         if (ran == 1)
         {
             SpawnCircleArrowOne.SetActive(true);
@@ -230,22 +210,16 @@ public class Tray : MonoBehaviour, IInput
             Hex.transform.SetParent(this.transform);
             HexTwo.transform.SetParent(this.transform);
 
-            //_child.transform.rotation = Quaternion.identity;
-            //_childTwo.transform.rotation = Quaternion.identity;
-
             var random = Random.Range(0, 3);
             for (int i = 0; i < random; i++)
             {
                 RotateTile();
-                //transform.Rotate(0, 0, 60 * i);
-                //_child.transform.localRotation = Quaternion.Euler(0,0,-(60 * i));
-                //_childTwo.transform.localRotation = Quaternion.Euler(0, 0, -(60 * i));
-
             }
 
-
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
+            Hex.GetComponent<HexNode>().SetValue(randomHex);
             HexTwo.GetComponent<HexNode>().SpriteChanger(randomHexTwo);
+            HexTwo.GetComponent<HexNode>().SetValue(randomHexTwo);
 
             Hex.transform.localPosition = new Vector2(-0.5f, 0f);
             HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
@@ -256,9 +230,9 @@ public class Tray : MonoBehaviour, IInput
             SpawnCircleArrowTwo.SetActive(false);
             GameObject Hex = (GameObject)Instantiate(_hex, _defaultPos, Quaternion.identity);
             _child = Hex;
-            //_child.transform.rotation = Quaternion.identity;
             Hex.transform.SetParent(this.transform);
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
+            Hex.GetComponent<HexNode>().SetValue(randomHex);
             Hex.transform.localPosition = new Vector2(0f, 0f);
 
         }
@@ -283,9 +257,6 @@ public class Tray : MonoBehaviour, IInput
 
     public void SkipTile()
     {
-        //GameObject temp = null;
-        //transform.rotation = Quaternion.identity;
-
         GameObject _childTemp = null;
         GameObject _childTwoTemp = null;
 
@@ -302,19 +273,15 @@ public class Tray : MonoBehaviour, IInput
         transform.DetachChildren();
         if (transform.childCount == 1)
         {
-            
-            Destroy(_childTemp);
-            
+            Destroy(_childTemp);       
         }
         else
         {
-            
             Destroy(_childTemp);
             Destroy(_childTwoTemp);
         }
-        //transform.Rotate(0, 0, 0);
+
         HexSpawner();
-        //ResetRotation();
         
     }
 
