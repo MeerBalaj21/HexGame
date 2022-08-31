@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     {
         _iS.Initialised(_tray);
         _tray.Initialised(_lG, _sD);
+        _sD.Initialise(_lG);
     }
 
 }

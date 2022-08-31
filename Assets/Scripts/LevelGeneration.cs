@@ -12,7 +12,7 @@ public class LevelGeneration : MonoBehaviour
     public GameObject Hex;
     private HexNode _hex;
 
-    [SerializeField] private Dictionary<string, HexNode> HexDic = new Dictionary<string, HexNode>();
+    public Dictionary<string, HexNode> HexDic = new Dictionary<string, HexNode>();
     //[SerializeField] private Dictionary<int, HexNode> HexDic = new Dictionary<int, HexNode>();
     //[SerializeField] public Dictionary<int, Vector2> ReturnDic = new Dictionary<int, Vector2>();
 

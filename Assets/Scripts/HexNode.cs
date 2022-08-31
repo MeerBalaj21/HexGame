@@ -30,10 +30,22 @@ public class HexNode : MonoBehaviour
     {
         IsGrab = true;
     }
+    public void ResetGrab()
+    {
+        IsGrab = false;
+    }
     public void SpriteChanger(int index)
     {
-        _sP = gameObject.GetComponent<SpriteRenderer>();
-        _sP.sprite = _sprites[index];
+        //if (index > Value)
+        
+            _sP = gameObject.GetComponent<SpriteRenderer>();
+            _sP.sprite = _sprites[index];
+        
+        //else
+        //{
+            
+        //}
+        
     }
     public void SortLayerOrder()
     {

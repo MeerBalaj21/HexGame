@@ -13,7 +13,7 @@ public class Tray : MonoBehaviour, IInput
     private GameObject _child;
     private GameObject _childTwo;
     private Vector2 _childPos, _childTwoPos;
-    public LevelGeneration LG;
+    public LevelGeneration LevelGenerator;
     public GameObject SpawnCircleArrowOne;
     public GameObject SpawnCircleArrowTwo;
     
@@ -55,10 +55,10 @@ public class Tray : MonoBehaviour, IInput
         }
     }
 
-    public void Initialised(LevelGeneration _LG, SearchDirection _searchDirection)
+    public void Initialised(LevelGeneration _LevelGenerator, SearchDirection _searchDirection)
     {
         searchDirection = _searchDirection;
-        LG = _LG;
+        LevelGenerator = _LevelGenerator;
     }
 
     public void Tap(Touch touch)
@@ -89,13 +89,13 @@ public class Tray : MonoBehaviour, IInput
         {
             Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
             offset.y = offset.y + 1;
-            LG.GridHighLight(offset, Vector2.zero);
+            LevelGenerator.GridHighLight(offset, Vector2.zero);
             transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
         }
         else if( transform.childCount != 1)
         {
             Vector2 delta = _childTwo.transform.position - _child.transform.position;
-            LG.GridHighLight(_child.transform.position, delta);
+            LevelGenerator.GridHighLight(_child.transform.position, delta);
             transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
             transform.GetChild(1).GetComponent<HexNode>().SortLayerOrder();
         }
@@ -123,10 +123,10 @@ public class Tray : MonoBehaviour, IInput
         {
             Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
             offset.y = offset.y + 1;
-            _lastPos = (Vector3)LG.GridFind(offset, Vector2.zero);
+            _lastPos = (Vector3)LevelGenerator.GridFind(offset, Vector2.zero);
             if (_lastPos != _CheckCondtion)
             {
-                searchDirection.ID = (int)LG.IndexFinder(_lastPos);
+                searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
                 Initialise();
                 transform.position = _lastPos;
                 _child = transform.GetChild(0).gameObject;
@@ -136,9 +136,9 @@ public class Tray : MonoBehaviour, IInput
                 searchDirection.Count = 0;
                 searchDirection.Visited.Clear();
                 searchDirection.SearchNeighbours(searchDirection.ID);
-
+       
                 _child.transform.GetComponent<HexNode>().ResetLayerOrder();
-                _child.transform.SetParent(LG.transform);
+                _child.transform.SetParent(LevelGenerator.transform);
 
                 HexSpawner();
             }
@@ -158,28 +158,37 @@ public class Tray : MonoBehaviour, IInput
     {
         Initialise();
         Vector2 delta = _childTwo.transform.position - _child.transform.position;
-        //Debug.Log(delta + "DELTA");
-        _lastPos = (Vector3)LG.GridFind(_child.transform.position, delta);
+        
+        _lastPos = (Vector3)LevelGenerator.GridFind(_child.transform.position, delta);
         if(_lastPos != _CheckCondtion)
         {
             _child.transform.position = _lastPos - (Vector3)delta;
             _childTwo.transform.position = _lastPos;
 
-            searchDirection.ID = (int)LG.IndexFinder(_lastPos - (Vector3)delta);
-            //Debug.Log(ID + "first");
+            searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos - (Vector3)delta);
             H1 = _child.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H1;
+            var ID = searchDirection.ID;
 
-            //Debug.LogError($"{_lastPos}");
-            searchDirection.ID = (int)LG.IndexFinder(_lastPos);
-            //Debug.LogError(ID + "second");
+            searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
             H2 = _childTwo.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H2;
 
+            var IDTwo = searchDirection.ID;
+            searchDirection.Count = 0;
+            searchDirection.Visited.Clear();
+
+            searchDirection.Merge(ID);
+
+            searchDirection.Count = 0;
+            searchDirection.Visited.Clear();
+
+            searchDirection.Merge(IDTwo);
+
             _child.transform.GetComponent<HexNode>().ResetLayerOrder();
             _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
-            _child.transform.SetParent(LG.transform);
-            _childTwo.transform.SetParent(LG.transform);
+            _child.transform.SetParent(LevelGenerator.transform);
+            _childTwo.transform.SetParent(LevelGenerator.transform);
 
             HexSpawner();
         }
