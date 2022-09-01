@@ -164,6 +164,7 @@ public class LevelGeneration : MonoBehaviour
                 }
                 if ((y % 2 == 1) && (x == _rows - 1))
                 {
+                    id = id + 1;
                     continue;
                 }
 

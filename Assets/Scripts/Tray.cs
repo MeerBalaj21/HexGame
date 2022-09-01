@@ -135,7 +135,7 @@ public class Tray : MonoBehaviour, IInput
                 searchDirection.HexNodeArray[searchDirection.ID] = H1;
                 searchDirection.Count = 0;
                 searchDirection.Visited.Clear();
-                searchDirection.SearchNeighbours(searchDirection.ID);
+                searchDirection.Merge(searchDirection.ID);
        
                 _child.transform.GetComponent<HexNode>().ResetLayerOrder();
                 _child.transform.SetParent(LevelGenerator.transform);

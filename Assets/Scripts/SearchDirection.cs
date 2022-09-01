@@ -121,6 +121,7 @@ public class SearchDirection: MonoBehaviour
             {
                 Debug.Log(value);
                 HexNodeArray[Visited[0]].SpriteChanger(value + 1);
+                HexNodeArray[Visited[0]].SetValue(value + 1);
             }
 
         }
@@ -141,54 +142,60 @@ public class SearchDirection: MonoBehaviour
         Debug.Log(index);
         RowChecker(index);
         Visited.Add(index);
-        if ((index + Left()) >= 0 && (index + Left()) <= 24 && HexNodeArray[index + Left()] != null
-            && !Visited.Contains(index + Left()) && HexNodeArray[index].Value == HexNodeArray[index + Left()].Value)
-        {
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + Left());
+        if (!Visited.Contains(index + Left()) && (index + Left()) >= 0 && (index + Left()) <= 24)
+        { 
+            if (HexNodeArray[index + Left()] != null && HexNodeArray[index].Value == HexNodeArray[index + Left()].Value)
+            {
+                _found = true;
+                SearchNeighbours(index + Left());
+            }  
         }
 
-        if ((index + TopLeft()) >= 0 && (index + TopLeft()) <= 24 && HexNodeArray[index + TopLeft()] != null
-            && !Visited.Contains(index + TopLeft()) && HexNodeArray[index].Value == HexNodeArray[index + TopLeft()].Value)
+        if (!Visited.Contains(index + TopLeft()) && (index + TopLeft()) >= 0 && (index + TopLeft()) <= 24)
         {
-
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + TopLeft());
+            if(HexNodeArray[index + TopLeft()] != null && HexNodeArray[index].Value == HexNodeArray[index + TopLeft()].Value)
+            {
+                _found = true;
+                SearchNeighbours(index + TopLeft());
+            }   
         }
 
-        if ((index + TopRight()) >= 0 && (index + TopRight()) <= 24 && HexNodeArray[index + TopRight()] != null
-            && !Visited.Contains(index + TopRight()) && HexNodeArray[index].Value == HexNodeArray[index + TopRight()].Value)
+        if (!Visited.Contains(index + TopRight()) && (index + TopRight()) >= 0 && (index + TopRight()) <= 24)
         {
-
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + TopRight());
+            if (HexNodeArray[index + TopRight()] != null && HexNodeArray[index].Value == HexNodeArray[index + TopRight()].Value)
+            {
+                _found = true;
+                SearchNeighbours(index + TopRight());
+            }
         }
         
-        if ((index + Right()) >= 0 && (index + Right()) <= 24 && HexNodeArray[index + Right()] != null
-            && !Visited.Contains(index + Right()) && HexNodeArray[index].Value == HexNodeArray[index + Right()].Value)
+        if (!Visited.Contains(index + Right()) && (index + Right()) >= 0 && (index + Right()) <= 24)
         {
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + Right());
+            if(HexNodeArray[index + Right()] != null && HexNodeArray[index].Value == HexNodeArray[index + Right()].Value)
+            {
+                _found = true;
+                SearchNeighbours(index + Right());
+            }
         }
         
-        if ((index + BottomRight()) >= 0 && (index + BottomRight()) <= 24 && HexNodeArray[index + BottomRight()] != null
-            && !Visited.Contains(index + BottomRight()) &&  HexNodeArray[index].Value == HexNodeArray[index + BottomRight()].Value)
+        if (!Visited.Contains(index + BottomRight()) && (index + BottomRight()) >= 0 && (index + BottomRight()) <= 24)
         {
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + BottomRight());
+            if (HexNodeArray[index + BottomRight()] != null && HexNodeArray[index].Value == HexNodeArray[index + BottomRight()].Value)
+            {
+                _found = true;
+                SearchNeighbours(index + BottomRight());
+            }
         }
         
-        if ((index + BottomLeft()) >= 0 && (index + BottomLeft()) <= 24 && HexNodeArray[index+BottomLeft()] != null
-            && !Visited.Contains(index + BottomLeft()) && HexNodeArray[index].Value == HexNodeArray[index + BottomLeft()].Value)
+        if (!Visited.Contains(index + BottomLeft()) && (index + BottomLeft()) >= 0 && (index + BottomLeft()) <= 24)
         {
-            _found = true;
-            //Count = Count + 1;
-            SearchNeighbours(index + BottomLeft());
+            if(HexNodeArray[index + BottomLeft()] != null && HexNodeArray[index].Value == HexNodeArray[index + BottomLeft()].Value)
+            {
+
+                _found = true;
+                //Count = Count + 1;
+                SearchNeighbours(index + BottomLeft());
+            }
         }
         else
         {
