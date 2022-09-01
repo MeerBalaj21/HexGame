@@ -8,6 +8,10 @@ public class ResetButton : MonoBehaviour
     // Start is called before the first frame update
     public void ResetB()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("GameScene");
+    }
+    public void QuitB()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
