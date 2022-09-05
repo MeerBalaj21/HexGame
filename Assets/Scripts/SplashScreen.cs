@@ -17,7 +17,7 @@ public class SplashScreen : MonoBehaviour
         yield return null;
 
         //Begin to load the Scene you specify
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("GameScene");
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
         //Don't let the Scene activate until you allow it to
         asyncOperation.allowSceneActivation = false;
         Debug.Log("Pro :" + asyncOperation.progress);
