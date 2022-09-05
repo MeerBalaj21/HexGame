@@ -2,29 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class ButtonHud : MonoBehaviour
 {
-    public Scrollbar Pages;
+    public HorizontalScrollSnap Pages;
 
     public void LeftTwoButton()
     {
-        Pages.value = 0.0f;
+        Pages.GoToScreen(0);
     }
     public void LeftOneButton()
     {
-        Pages.value = 0.25f;
+        Pages.GoToScreen(1);
     }
     public void HomeButton()
     {
-        Pages.value = 0.5f;
+        Pages.GoToScreen(2);
     }
     public void RightOneButton()
     {
-        Pages.value = 0.75f;
+        Pages.GoToScreen(3);
     }
     public void RightTwoButton()
     {
-        Pages.value = 1.0f;
+        Pages.GoToScreen(4);
     }
 }
