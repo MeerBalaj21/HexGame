@@ -3,15 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ResetButton : MonoBehaviour
+public class ResetButton : MonoBehaviour, IAds
 {
-    // Start is called before the first frame update
+    public InterstitialAds InterstitialAds;
+
+
+
     public void ResetB()
     {
         SceneManager.LoadScene("GameScene");
     }
     public void QuitB()
     {
+        //AdPlayer.IAD();
+        //AdPlayer.IAD();
+        InterstitialAds.ShowAd(this);
+    }
+
+    public void AdShown()
+    {
+        
+    }
+
+    public void AdClosed()
+    {
         SceneManager.LoadScene("MainMenu");
     }
+
+    
 }

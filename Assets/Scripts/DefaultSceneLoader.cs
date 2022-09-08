@@ -1,5 +1,7 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 [InitializeOnLoadAttribute]
 public static class DefaultSceneLoader
@@ -22,3 +24,4 @@ public static class DefaultSceneLoader
         }
     }
 }
+#endif

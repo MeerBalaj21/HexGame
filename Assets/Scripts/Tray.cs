@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tray : MonoBehaviour, IInput
+public class Tray : MonoBehaviour, IInput, IAds
 {
     private Vector2 _startPos;
     private Vector2 _endPos;
@@ -16,7 +16,7 @@ public class Tray : MonoBehaviour, IInput
     public LevelGeneration LevelGenerator;
     public GameObject SpawnCircleArrowOne;
     public GameObject SpawnCircleArrowTwo;
-    
+    public RewardedAd RewardedAds;
     public SearchDirection searchDirection;
     //[SerializeField] private int ID;
     [SerializeField] private GameObject _hex;
@@ -126,7 +126,17 @@ public class Tray : MonoBehaviour, IInput
             _lastPos = (Vector3)LevelGenerator.GridFind(offset, Vector2.zero);
             if (_lastPos != _CheckCondtion)
             {
-                searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
+                //searchDirection.ID
+                int? a = LevelGenerator.IndexFinder(_lastPos);
+                if (!a.HasValue)
+                {
+                    Drop(touch);
+                    return;
+                }
+                else
+                {
+                    searchDirection.ID = a.Value;
+                }
                 Initialise();
                 transform.position = _lastPos;
                 _child = transform.GetChild(0).gameObject;
@@ -165,12 +175,32 @@ public class Tray : MonoBehaviour, IInput
             _child.transform.position = _lastPos - (Vector3)delta;
             _childTwo.transform.position = _lastPos;
 
-            searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos - (Vector3)delta);
+            //searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos );
+            int? a = LevelGenerator.IndexFinder(_lastPos - (Vector3)delta);
+            if (!a.HasValue)
+            {
+                Drop(touch);
+                return;
+            }
+            else
+            {
+                searchDirection.ID = a.Value;
+            }
             H1 = _child.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H1;
             var ID = searchDirection.ID;
 
-            searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
+            //searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
+            a = LevelGenerator.IndexFinder(_lastPos);
+            if (!a.HasValue)
+            {
+                Drop(touch);
+                return;
+            }
+            else
+            {
+                searchDirection.ID = a.Value;
+            }
             H2 = _childTwo.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H2;
 
@@ -266,6 +296,7 @@ public class Tray : MonoBehaviour, IInput
 
     public void SkipTile()
     {
+
         GameObject _childTemp = null;
         GameObject _childTwoTemp = null;
 
@@ -294,4 +325,18 @@ public class Tray : MonoBehaviour, IInput
         
     }
 
+    public void SkipB()
+    {
+        RewardedAds.ShowAd(this);
+    }
+
+    public void AdShown()
+    {
+        
+    }
+
+    public void AdClosed()
+    {
+        SkipTile(); 
+    }
 }
