@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "988b5a483241363957",
         "name": "com.thunderzone.eye",
-        "processId": 13615,
+        "processId": 9056,
         "exited": false
     },
     "m_SelectedPriority": 1,
@@ -47,12 +47,6 @@
         {
             "deviceId": "988b5a483241363957",
             "name": "com.DefaultCompany.HexGame",
-            "processId": 30971,
-            "exited": true
-        },
-        {
-            "deviceId": "988b5a483241363957",
-            "name": "com.DefaultCompany.HexGame",
             "processId": 4297,
             "exited": true
         },
@@ -72,6 +66,12 @@
             "deviceId": "988b5a483241363957",
             "name": "com.thunderzone.eye",
             "processId": 13615,
+            "exited": true
+        },
+        {
+            "deviceId": "988b5a483241363957",
+            "name": "com.thunderzone.eye",
+            "processId": 9056,
             "exited": false
         }
     ],

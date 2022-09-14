@@ -8,6 +8,7 @@ public class InterstitialAds : ScriptableObject
 {
     IAds _interAdListener;
     string adUnitId = "7d62e5180461f57a";
+    public NoAds Ads;
     public RewardedAd RewardedAds;
     int retryAttempt;
     long timer = 0;
@@ -40,7 +41,7 @@ public class InterstitialAds : ScriptableObject
 
         if (MaxSdk.IsInterstitialReady(adUnitId))
         {
-            if (GetTimer() - LastAdTimer > 30)
+            if (GetTimer() - LastAdTimer > 30 && Ads.ShowAds)
             {
                 MaxSdk.ShowInterstitial(adUnitId);
 

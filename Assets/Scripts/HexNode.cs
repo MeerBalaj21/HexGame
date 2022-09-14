@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class HexNode : MonoBehaviour
 {
+    [SerializeField] private Vector2 _xy;
+
     public List<Sprite> _sprites;
     public Vector2 _locations;
+    public int Value;
     private SpriteRenderer _sP;
     private int _index;
-    [SerializeField] private Vector2 _xy;
-    [SerializeField] public int Value;
     public bool IsGrab = false;
     public bool RowFive = true;
 
@@ -17,6 +18,10 @@ public class HexNode : MonoBehaviour
     public void SetXY(Vector2 xy)
     {
         _xy = xy;
+    }
+    public Vector2 GetXY()
+    {
+        return _xy;
     }
     public void SetValue(int v)
     {
@@ -36,16 +41,8 @@ public class HexNode : MonoBehaviour
     }
     public void SpriteChanger(int index)
     {
-        //if (index > Value)
-        
-            _sP = gameObject.GetComponent<SpriteRenderer>();
-            _sP.sprite = _sprites[index];
-        
-        //else
-        //{
-            
-        //}
-        
+        _sP = gameObject.GetComponent<SpriteRenderer>();
+        _sP.sprite = _sprites[index];
     }
     public void SortLayerOrder()
     {

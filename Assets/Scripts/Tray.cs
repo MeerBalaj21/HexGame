@@ -18,6 +18,7 @@ public class Tray : MonoBehaviour, IInput, IAds
     public GameObject SpawnCircleArrowTwo;
     public RewardedAd RewardedAds;
     public SearchDirection searchDirection;
+    public Skips Skip;
     //[SerializeField] private int ID;
     [SerializeField] private GameObject _hex;
     [SerializeField] private Camera _cam;
@@ -30,7 +31,7 @@ public class Tray : MonoBehaviour, IInput, IAds
         _BaseTrayPos = new Vector2(2, -4.75f);
         
         HexSpawner();
-        Initialise();
+        //Initialise();
         searchDirection.Initialise();
     }
 
@@ -69,7 +70,7 @@ public class Tray : MonoBehaviour, IInput, IAds
     public void RotateTile()
     {
 
-        Initialise();
+        //Initialise();
         transform.Rotate(0f, 0f, -60f);
         if(transform.childCount == 1)
         {
@@ -77,22 +78,23 @@ public class Tray : MonoBehaviour, IInput, IAds
         }
         else
         {
-            _childTwo.transform.Rotate(0f, 0f, 60f);
             _child.transform.Rotate(0f, 0f, 60f);
+            _childTwo.transform.Rotate(0f, 0f, 60f);
         }
     }
     public void Drag(Touch touch)
     {
-        Initialise();
+        //Initialise();
         
         if(transform.childCount == 1)
         {
-            Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
-            offset.y = offset.y + 1;
-            LevelGenerator.GridHighLight(offset, Vector2.zero);
+            //Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
+            //offset.y = offset.y + 1;
+            //LevelGenerator.GridHighLight(offset, Vector2.zero);
+            LevelGenerator.GridHighLight(_child.transform.position, Vector2.zero);
             transform.GetChild(0).GetComponent<HexNode>().SortLayerOrder();
         }
-        else if( transform.childCount != 1)
+        else if( transform.childCount > 1)
         {
             Vector2 delta = _childTwo.transform.position - _child.transform.position;
             LevelGenerator.GridHighLight(_child.transform.position, delta);
@@ -121,106 +123,204 @@ public class Tray : MonoBehaviour, IInput, IAds
     {
         if (transform.childCount == 1)
         {
-            Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
-            offset.y = offset.y + 1;
-            _lastPos = (Vector3)LevelGenerator.GridFind(offset, Vector2.zero);
+            var childTemp = _child;
+            //Vector2 offset = _cam.ScreenToWorldPoint(touch.position);
+            //offset.y = offset.y + 1;
+            //_lastPos = (Vector3)LevelGenerator.GridFind(offset, Vector2.zero);
+            _lastPos = (Vector3)LevelGenerator.GridFind(childTemp.transform.position, Vector2.zero);
             if (_lastPos != _CheckCondtion)
             {
-                //searchDirection.ID
-                int? a = LevelGenerator.IndexFinder(_lastPos);
-                if (!a.HasValue)
+                childTemp.transform.position = _lastPos;
+                _child.transform.SetParent(LevelGenerator.transform);
+                _child.transform.GetComponent<HexNode>().ResetLayerOrder();
+                HexSpawner();
+                //transform.position = _lastPos;
+
+                //this method will find index and search using that
+                int a = LevelGenerator.IndexFinder(_lastPos);
+                if (a == -1)
                 {
                     Drop(touch);
                     return;
                 }
                 else
                 {
-                    searchDirection.ID = a.Value;
+                    searchDirection.ID = a;
                 }
-                Initialise();
-                transform.position = _lastPos;
-                _child = transform.GetChild(0).gameObject;
-                
-                H1 = _child.GetComponent<HexNode>();
+                //this way ill store the xy position and seearch using them
+                Vector2? temp = LevelGenerator.XYFinder(_lastPos);
+                if (!temp.HasValue)
+                {
+                    Drop(touch);
+                    return;
+                }
+                else
+                {
+                    childTemp.transform.GetComponent<HexNode>().SetXY((Vector2)temp);
+                    //searchDirection.ID = a;
+                }
+
+                H1 = childTemp.GetComponent<HexNode>();
                 searchDirection.HexNodeArray[searchDirection.ID] = H1;
-                searchDirection.Count = 0;
+                //searchDirection.HexNodeArray[searchDirection.xy] = H1;
+
                 searchDirection.Visited.Clear();
                 searchDirection.Merge(searchDirection.ID);
-       
-                _child.transform.GetComponent<HexNode>().ResetLayerOrder();
-                _child.transform.SetParent(LevelGenerator.transform);
 
-                HexSpawner();
+
             }
             else
             {
                 Drop(touch);
+            }
+        }
+        else if (transform.childCount > 1)
+        {
+            Debug.Log("Snap two per ata hai");
+            SnapTwo(touch);
+            //testingSnapTwo(touch);
+        }
+        //testingSnapTwo(touch);
+    }
+
+    public void testingSnapTwo(Touch touch)
+    {
+        var childTemp = _child;
+        var childTwoTemp = _childTwo;
+        int ID = 0;
+        Vector3 delta = childTwoTemp.transform.position - childTemp.transform.position;
+
+        _lastPos = (Vector3)LevelGenerator.GridFind(childTemp.transform.position, Vector2.zero);
+        if (_lastPos != _CheckCondtion)
+        {
+            childTemp.transform.position = _lastPos;
+            _child.transform.SetParent(LevelGenerator.transform);
+            _child.transform.GetComponent<HexNode>().ResetLayerOrder();
+
+            int a = LevelGenerator.IndexFinder(_lastPos);
+            if (a == -1)
+            {
+                Drop(touch);
+                return;
+            }
+            else
+            {
+                searchDirection.ID = a;
+            }
+            ID = searchDirection.ID;
+            H1 = childTemp.GetComponent<HexNode>();
+            searchDirection.HexNodeArray[searchDirection.ID] = H1;
+
+            _lastPos = (Vector3)LevelGenerator.GridFind(childTemp.transform.position + delta, Vector2.zero);
+            if (_lastPos != _CheckCondtion)
+            {
+                childTwoTemp.transform.position = _lastPos;
+                _childTwo.transform.SetParent(LevelGenerator.transform);
+                _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
+                HexSpawner();
+                //transform.position = _lastPos;
+
+                a = LevelGenerator.IndexFinder(_lastPos);
+                if (a == -1)
+                {
+                    Drop(touch);
+                    return;
+                }
+                else
+                {
+                    searchDirection.ID = a;
+                }
+
+                H2 = childTwoTemp.GetComponent<HexNode>();
+                searchDirection.HexNodeArray[searchDirection.ID] = H2;
+
+                searchDirection.Visited.Clear();
+                searchDirection.Merge(ID);
+
+                searchDirection.Visited.Clear();
+                searchDirection.Merge(searchDirection.ID);
+
+
+
             }
         }
         else
         {
-            Debug.Log("Snap two per ata hai");
-            SnapTwo(touch);
+            Drop(touch);
         }
+
+        
     }
 
     public void SnapTwo(Touch touch)
     {
-        Initialise();
-        Vector2 delta = _childTwo.transform.position - _child.transform.position;
+        //Initialise();
+        var childTemp = _child;
+        var childTwoTemp = _childTwo;
+        Vector3 delta = childTwoTemp.transform.position - childTemp.transform.position;
         
-        _lastPos = (Vector3)LevelGenerator.GridFind(_child.transform.position, delta);
+        _lastPos = (Vector3)LevelGenerator.GridFind(childTemp.transform.position, delta);
         if(_lastPos != _CheckCondtion)
         {
-            _child.transform.position = _lastPos - (Vector3)delta;
-            _childTwo.transform.position = _lastPos;
+            childTemp.transform.position = _lastPos - delta;
+            childTwoTemp.transform.position = _lastPos;
+            //_child.transform.position = _lastPos - (Vector3)delta;
+            //_childTwo.transform.position = _lastPos;
 
+            _child.transform.SetParent(LevelGenerator.transform);
+            _childTwo.transform.SetParent(LevelGenerator.transform);
+            _child.transform.GetComponent<HexNode>().ResetLayerOrder();
+            _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
+
+            HexSpawner();
             //searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos );
-            int? a = LevelGenerator.IndexFinder(_lastPos - (Vector3)delta);
-            if (!a.HasValue)
+            //int? a = LevelGenerator.IndexFinder(_lastPos - (Vector3)delta);
+            int a = LevelGenerator.IndexFinder(childTemp.transform.position);
+            if (a == -1)
             {
                 Drop(touch);
                 return;
             }
             else
             {
-                searchDirection.ID = a.Value;
+                searchDirection.ID = a;
             }
-            H1 = _child.GetComponent<HexNode>();
+            H1 = childTemp.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H1;
             var ID = searchDirection.ID;
 
             //searchDirection.ID = (int)LevelGenerator.IndexFinder(_lastPos);
-            a = LevelGenerator.IndexFinder(_lastPos);
-            if (!a.HasValue)
+            a = LevelGenerator.IndexFinder(childTwoTemp.transform.position);
+            if (a == -1)
             {
                 Drop(touch);
                 return;
             }
             else
             {
-                searchDirection.ID = a.Value;
+                searchDirection.ID = a;
             }
-            H2 = _childTwo.GetComponent<HexNode>();
+            H2 = childTwoTemp.GetComponent<HexNode>();
             searchDirection.HexNodeArray[searchDirection.ID] = H2;
-
             var IDTwo = searchDirection.ID;
-            searchDirection.Count = 0;
+
             searchDirection.Visited.Clear();
+            if(searchDirection.Visited.Count == 0)
+            {
+                searchDirection.Merge(ID);
+                searchDirection.Visited.Clear();
+                Debug.Log("Merge of 1 is called");
+            }
+            
 
-            searchDirection.Merge(ID);
+            
+            if(searchDirection.Visited.Count == 0)
+            {
+                searchDirection.Merge(IDTwo);
+                Debug.Log("Merge of 2 is called");
+            }
+            
 
-            searchDirection.Count = 0;
-            searchDirection.Visited.Clear();
-
-            searchDirection.Merge(IDTwo);
-
-            _child.transform.GetComponent<HexNode>().ResetLayerOrder();
-            _childTwo.transform.GetComponent<HexNode>().ResetLayerOrder();
-            _child.transform.SetParent(LevelGenerator.transform);
-            _childTwo.transform.SetParent(LevelGenerator.transform);
-
-            HexSpawner();
         }
         else
         {
@@ -230,7 +330,8 @@ public class Tray : MonoBehaviour, IInput, IAds
     }
 
     public void HexSpawner()
-    {     
+    {
+       
         int ran = Random.Range(0, 2);
         int randomHex = Random.Range(0, 4);
         int randomHexTwo = Random.Range(0, 4);
@@ -275,7 +376,7 @@ public class Tray : MonoBehaviour, IInput, IAds
             Hex.transform.localPosition = new Vector2(0f, 0f);
 
         }
-
+        Initialise();
     }
 
     public void ResetRotation()
@@ -322,12 +423,20 @@ public class Tray : MonoBehaviour, IInput, IAds
         }
 
         HexSpawner();
-        
+        Skip.DecreaseSkip();
+
     }
 
     public void SkipB()
     {
-        RewardedAds.ShowAd(this);
+        if (Skip.GetSkips() == 0)
+        {
+            RewardedAds.ShowAd(this);
+        }
+        else
+        {
+            SkipTile();
+        }
     }
 
     public void AdShown()

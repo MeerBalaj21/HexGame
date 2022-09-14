@@ -610,6 +610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d6d23b83b2f4700a9b9ae35020c6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
   loader: {fileID: 287949291}
 --- !u!114 &1495600749
 MonoBehaviour:

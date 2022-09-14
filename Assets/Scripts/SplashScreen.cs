@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class SplashScreen : MonoBehaviour
 {
-
+    public IAPStore Store;
     public Image loader;
     void Start()
     {
+        Store.Initialize();
         StartCoroutine(LoadScene());
     }
 

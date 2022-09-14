@@ -7,6 +7,7 @@ using System;
 public class RewardedAd : ScriptableObject
 {
     IAds _interAdListener;
+    public Skips Skip;
     string adUnitId = "585f249ad115c420";
     int retryAttempt;
     long timer = 0;
@@ -57,7 +58,20 @@ public class RewardedAd : ScriptableObject
 
         if (MaxSdk.IsRewardedAdReady(adUnitId))
         {
-            MaxSdk.ShowRewardedAd(adUnitId);
+            if(Skip.GetSkips() == 0)
+            {
+                MaxSdk.ShowRewardedAd(adUnitId);
+            }
+            else
+            {
+                AdListener.AdClosed();
+            }
+            
+        }
+        else
+        {
+            LoadRewardedAd();
+            AdListener.AdClosed();
         }
     }
     private void LoadRewardedAd()

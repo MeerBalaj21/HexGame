@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbe617cfd03c48d2932333d1a99cee4, type: 3}
-  m_Name: RewardedAd
+  m_Script: {fileID: 11500000, guid: 0ab9a1ac9d7ad4aad83eea8331d6e003, type: 3}
+  m_Name: Skips
   m_EditorClassIdentifier: 
-  InterstitialAd: {fileID: 11400000, guid: e6d59016f062a404ba119f378295f0b8, type: 2}
+  SkipCount: 2

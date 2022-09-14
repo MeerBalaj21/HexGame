@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba2cb5b3bca145f293c1edd5aa7d3ee, type: 3}
+  m_Name: InterstitialAd
+  m_EditorClassIdentifier: 
+  Ads: {fileID: 11400000, guid: 7831f12aa54084031887d56f70c91f4f, type: 2}
+  RewardedAds: {fileID: 11400000, guid: 9be94216e77e54a31a57fd4e482ff771, type: 2}

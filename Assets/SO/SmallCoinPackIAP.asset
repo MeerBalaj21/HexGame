@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7d57a536e584f6492b92c48d16a9d4, type: 3}
+  m_Name: SmallCoinPackIAP
+  m_EditorClassIdentifier: 
+  SKU: com.thunderzone.eye.small.coin
+  Title: Small Coin Pack
+  Price: 1.99
+  ProductType: 0
+  RewardType:
+  - Icon: {fileID: 21300000, guid: 301e4ab1798f24d76857cfdda9a0d789, type: 3}
+    Amount: 200
+    Rewards: 1
+  Prefab: {fileID: 2938807706119402984, guid: 4bdc514ee22224b6fa8cc762fd8bf70b, type: 3}

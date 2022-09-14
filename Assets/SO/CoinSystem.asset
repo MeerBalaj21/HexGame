@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fba2cb5b3bca145f293c1edd5aa7d3ee, type: 3}
-  m_Name: InterstitialAd
+  m_Script: {fileID: 11500000, guid: 590a5402bfda74bdd8129e0df14ba700, type: 3}
+  m_Name: CoinSystem
   m_EditorClassIdentifier: 
-  RewardedAds: {fileID: 11400000, guid: 9be94216e77e54a31a57fd4e482ff771, type: 2}
+  Coins: 1000

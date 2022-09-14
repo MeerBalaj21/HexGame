@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class StartScreen : MonoBehaviour
 {
+    
     public void Onstart()
     {
+        
         SceneManager.LoadScene("GameScene");
     }
 }

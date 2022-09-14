@@ -69,7 +69,7 @@ public class LevelGeneration : MonoBehaviour
         return new Vector3(-1, -1, -1);
     }
 
-    public int? IndexFinder(Vector2 loc)
+    public int IndexFinder(Vector2 loc)
     {
         foreach( var pair in HexDic)
         {
@@ -78,6 +78,25 @@ public class LevelGeneration : MonoBehaviour
             {
                 //Debug.Log($"{pair.Value.GetIndex()}");
                 return pair.Value.GetIndex();
+            }
+            else
+            {
+                //Debug.Log("else of index finder");
+                continue;
+            }
+        }
+        //Debug.Log("end of index finder");
+        return -1;
+    }
+    public Vector2? XYFinder(Vector2 loc)
+    {
+        foreach (var pair in HexDic)
+        {
+            //Debug.LogError($"{pair.Value._locations.x} {pair.Value._locations.y} : {loc.x} {loc.y} = {pair.Value._locations.x == loc.x && pair.Value._locations.y.ToString("0.00") == loc.y.ToString("0.00")}");
+            if (pair.Value._locations.x == loc.x && pair.Value._locations.y.ToString("0.00") == loc.y.ToString("0.00"))
+            {
+                //Debug.Log($"{pair.Value.GetIndex()}");
+                return pair.Value.GetXY();
             }
             else
             {
