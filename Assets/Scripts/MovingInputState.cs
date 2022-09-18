@@ -15,7 +15,6 @@ public class MovingInputState : InputState
     public override void End(Touch touch)
     {
         Input.Snap(touch);
-        //Debug.Log("end of moving state is called");
         Listener.ChangeState(new IdleInputState(this.Listener,this.Input));
     }
 

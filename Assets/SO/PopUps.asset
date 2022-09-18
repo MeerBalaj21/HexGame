@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590a5402bfda74bdd8129e0df14ba700, type: 3}
-  m_Name: CoinSystem
+  m_Script: {fileID: 11500000, guid: 329dd980bb3ee4b3b97baf9e2214dc2b, type: 3}
+  m_Name: PopUps
   m_EditorClassIdentifier: 
-  Coins: 0

@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 5444648110877490902}
   - component: {fileID: 6865048576141719225}
   - component: {fileID: 3349133620982883229}
+  - component: {fileID: 4111788700305379834}
   m_Layer: 5
   m_Name: RemoveAds
   m_TagString: Untagged
@@ -518,6 +519,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4111788700305379834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2938807706119402984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2096c6d0e6714a3184e326aba701417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RewardGiver: {fileID: 11400000, guid: b0d01db8b2bbe4f4f820b5baefa878be, type: 2}
+  Items: {fileID: 11400000, guid: 5b52a5164de4c42d7a12f6f6ef72045d, type: 2}
+  Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
+  TextPrice: {fileID: 4565525304059612363}
+  TextBanner: {fileID: 7714803658444477675}
+  PopUp: {fileID: 11400000, guid: dee92b1451217445da092d2fab477522, type: 2}
 --- !u!1 &3827745064234459324
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +625,6 @@ GameObject:
   - component: {fileID: 6252820316762403926}
   - component: {fileID: 4179312012956272985}
   - component: {fileID: 7222923267174496228}
-  - component: {fileID: 267899715777178505}
   m_Layer: 5
   m_Name: Buy
   m_TagString: Untagged
@@ -717,7 +735,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 267899715777178505}
+      - m_Target: {fileID: 4111788700305379834}
         m_TargetAssemblyTypeName: BuyButton, Assembly-CSharp
         m_MethodName: Buy
         m_Mode: 1
@@ -729,23 +747,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &267899715777178505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4810800166187500302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2096c6d0e6714a3184e326aba701417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RewardGiver: {fileID: 11400000, guid: b0d01db8b2bbe4f4f820b5baefa878be, type: 2}
-  Items: {fileID: 11400000, guid: 5b52a5164de4c42d7a12f6f6ef72045d, type: 2}
-  Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
-  TextPrice: {fileID: 4565525304059612363}
-  TextBanner: {fileID: 7714803658444477675}
 --- !u!1 &4904475551224743285
 GameObject:
   m_ObjectHideFlags: 0

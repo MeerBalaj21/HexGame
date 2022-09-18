@@ -7,8 +7,10 @@ public class SplashScreen : MonoBehaviour
 {
     public IAPStore Store;
     public Image loader;
+    public RewardHandler RewardsHandler;
     void Start()
     {
+        RewardsHandler.Initialise();
         Store.Initialize();
         StartCoroutine(LoadScene());
     }

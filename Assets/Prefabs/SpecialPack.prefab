@@ -241,7 +241,6 @@ GameObject:
   - component: {fileID: 8126797962835142202}
   - component: {fileID: 2825357953110866323}
   - component: {fileID: 8609610643540777568}
-  - component: {fileID: 2395129297929546037}
   m_Layer: 5
   m_Name: BUY
   m_TagString: Untagged
@@ -352,7 +351,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2395129297929546037}
+      - m_Target: {fileID: 8618993100449520646}
         m_TargetAssemblyTypeName: BuyButton, Assembly-CSharp
         m_MethodName: Buy
         m_Mode: 1
@@ -364,23 +363,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2395129297929546037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985557748022013724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2096c6d0e6714a3184e326aba701417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RewardGiver: {fileID: 11400000, guid: b0d01db8b2bbe4f4f820b5baefa878be, type: 2}
-  Items: {fileID: 11400000, guid: b4320d22e72f24454807aac03c48e2bc, type: 2}
-  Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
-  TextPrice: {fileID: 1197523703772363620}
-  TextBanner: {fileID: 2733796100018962349}
 --- !u!1 &2208483726516041359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1665,7 @@ GameObject:
   - component: {fileID: 2044115511406088392}
   - component: {fileID: 618369636917385383}
   - component: {fileID: 8767362708462095747}
+  - component: {fileID: 8618993100449520646}
   m_Layer: 5
   m_Name: SpecialPack
   m_TagString: Untagged
@@ -1753,3 +1736,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8618993100449520646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9158580771241204726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2096c6d0e6714a3184e326aba701417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RewardGiver: {fileID: 11400000, guid: b0d01db8b2bbe4f4f820b5baefa878be, type: 2}
+  Items: {fileID: 11400000, guid: b4320d22e72f24454807aac03c48e2bc, type: 2}
+  Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
+  TextPrice: {fileID: 1197523703772363620}
+  TextBanner: {fileID: 2733796100018962349}
+  PopUp: {fileID: 11400000, guid: dee92b1451217445da092d2fab477522, type: 2}

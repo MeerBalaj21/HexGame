@@ -5,15 +5,12 @@ using UnityEngine;
 public class HexNode : MonoBehaviour
 {
     [SerializeField] private Vector2 _xy;
-
-    public List<Sprite> _sprites;
     public Vector2 _locations;
+    public List<Sprite> _sprites;
     public int Value;
-    private SpriteRenderer _sP;
-    private int _index;
     public bool IsGrab = false;
-    public bool RowFive = true;
-
+    public bool RowFive;
+    private SpriteRenderer _sP;
 
     public void SetXY(Vector2 xy)
     {
@@ -51,13 +48,5 @@ public class HexNode : MonoBehaviour
     public void ResetLayerOrder()
     {
         _sP.sortingOrder = 1;
-    }
-    public void SetIndex(int id)
-    {
-        _index = id;
-    }
-    public int GetIndex()
-    {
-        return _index;
     }
 }

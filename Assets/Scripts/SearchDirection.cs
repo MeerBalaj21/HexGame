@@ -4,242 +4,225 @@ using UnityEngine;
 
 public class SearchDirection: MonoBehaviour
 {
-    public HexNode[] HexNodeArray;
-    public int ID;
-    private bool _found;
-    public List<int> Visited;
-    public int Count;
-    public bool RowFive;
-    public GameObject TempParent;
-
-    private LevelGeneration _levelGeneration;
-
-    public void Initialise(LevelGeneration _lG)
-    {
-        _levelGeneration = _lG;
-    }
-    public int Left()
-    {
-        return -5;
-    }
-    public int TopLeft()
-    {
-        if(RowFive == true)
-        {
-            return -4;
-        }
-        else
-        {
-            return 1;
-        }
-    }
-    public int BottomLeft()
-    {
-        if (RowFive == true)
-        {
-            return -6;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    public int Right()
-    {
-        return 5;
-    }
-    public int TopRight()
-    {
-        if (RowFive == true)
-        {
-            return 1;
-        }
-        else
-        {
-            return 6;
-        }
-    }
-    public int BottomRight()
-    {
-        if (RowFive == true)
-        {
-            return -1;
-        }
-        else
-        {
-            return 4;
-        }
-    }
+    public HexNode[,] HexNodeArray;
+    public List<Vector2> Visited;
+    public GameObject NewParent;
+    public LevelGeneration LevelGenerator;
+    public bool RowFiveTemp;
 
     public void Initialise()
     {
-        HexNodeArray = new HexNode[25];
+        HexNodeArray = new HexNode[5,5];
     }
 
-    public void RowChecker(int index)
+    public void Initialise(LevelGeneration _lG)
     {
-        var num = index % 5;
-        if(num == 0 || num == 2 || num == 4)
-        {
-            RowFive = true;
-        }
-        else if (num == 1 || num == 3)
-        {
-            RowFive = false;
-        }
-        else
-        {
-            Debug.Log("fault");
-        }
-
+        LevelGenerator = _lG;
     }
 
-    public void Merge(int index)
+    public void RowChecker(HexNode Hex)
     {
-        SearchNeighbours(index);
-        if (Visited.Count > 2)
+        if(Hex.GetXY().y == 0 || Hex.GetXY().y == 2 || Hex.GetXY().y == 4)
         {
-            Debug.Log("visited count" + Visited.Count);
-            foreach (var i in Visited)
-            {
-
-                if (i != Visited[0])
-                {
-                    foreach(var x in _levelGeneration.HexDic)
-                    {
-                        if(x.Value.GetIndex() == i)
-                        {
-                            x.Value.ResetGrab();
-                        }
-                    }
-                    HexNodeArray[i].transform.gameObject.SetActive(false);
-                    HexNodeArray[i].transform.SetParent(TempParent.transform);
-                    HexNodeArray[i] = null;
-                }
-            }
-
-            var value = HexNodeArray[Visited[0]].Value;
-            if (value != 3)
-            {
-                Debug.Log(value);
-                HexNodeArray[Visited[0]].SpriteChanger(value + 1);
-                HexNodeArray[Visited[0]].SetValue(value + 1);
-            }
-
+            Hex.RowFive = true;
+            RowFiveTemp = Hex.RowFive;
         }
-        else
+        else if (Hex.GetXY().y == 1 || Hex.GetXY().y == 3)
         {
-            Debug.Log("visited count= " + Visited.Count);
+            Hex.RowFive = false;
+            RowFiveTemp = Hex.RowFive;
         }
-
-
     }
 
-    public void SearchNeighbours(int index)
+    public Vector2 Left()
     {
-        if(HexNodeArray[index] == null)
-        {
-            return;
-        }
-        //Debug.Log(index);
-        RowChecker(index);
-        Visited.Add(index);
+        return new Vector2(-1, 0);
+    }
 
-        if (!Visited.Contains(index + Left()))
+    public Vector2 TopLeft()
+    {
+        if(RowFiveTemp == true)
         {
-            if ((index + Left()) >= 0 && (index + Left()) <= 24)
-            {
-                if (HexNodeArray[index + Left()] != null)
-                {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + Left()].Value)
-                    {
-                        //Debug.Log("VISITED = " + Visited[index+Left()]);
-                        SearchNeighbours(index + Left());
-                    }
-                }
-            } 
+            return new Vector2(-1, 1);
         }
+        return new Vector2(0, 1);    
+    }
 
-        if (!Visited.Contains(index + TopLeft()))
+    public Vector2 TopRight()
+    {
+        if (RowFiveTemp == true)
         {
-            if ((index + TopLeft()) >= 0 && (index + TopLeft()) <= 24)
-            {
-                if (HexNodeArray[index + TopLeft()] != null)
-                {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + TopLeft()].Value)
-                    {
-                        //Debug.Log("VISITED = " + Visited[index]+TopLeft());
-                        SearchNeighbours(index + TopLeft());
-                    }
-                }
-            }
+            return new Vector2(0, 1);
         }
+        return new Vector2(1, 1);
+    }
 
-        if (!Visited.Contains(index + TopRight()))
+    public Vector2 Right()
+    {
+        return new Vector2(1, 0);
+    }
+
+    public Vector2 BottomRight()
+    {
+        if (RowFiveTemp == true)
         {
-            if ((index + TopRight()) >= 0 && (index + TopRight()) <= 24)
-            {
-                if (HexNodeArray[index + TopRight()] != null)
-                {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + TopRight()].Value)
-                    {
-                        //Debug.Log("VISITED = " + Visited[index+TopRight()]);
-                        SearchNeighbours(index + TopRight());
-                    }
-                }
-            }        
+            return new Vector2(0,-1);
         }
-        
-        if (!Visited.Contains(index + Right()))
+        return new Vector2(1, -1);
+    }
+
+    public Vector2 BottomLeft()
+    {
+        if (RowFiveTemp == true)
         {
-            if ((index + Right()) >= 0 && (index + Right()) <= 24)
+            return new Vector2(-1, -1);
+        }
+        return new Vector2(0, -1);
+    }
+
+    public void Merge()
+    {
+        if(Visited.Count > 2)
+        {
+            for(int i = 1; i < Visited.Count; i++)
             {
-                if (HexNodeArray[index + Right()] != null)
+                foreach(var pair in LevelGenerator.HexDic)
                 {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + Right()].Value)
+                    if (pair.Value.GetXY() == Visited[i])
                     {
-                        //Debug.Log("VISITED = " + Visited[index+Right()]);
-                        SearchNeighbours(index + Right());
+                        pair.Value.ResetGrab();
                     }
                 }
+                HexNodeArray[(int)Visited[i].x, (int)Visited[i].y].gameObject.SetActive(false);
+                HexNodeArray[(int)Visited[i].x, (int)Visited[i].y].gameObject.transform.SetParent(NewParent.transform);
+                HexNodeArray[(int)Visited[i].x, (int)Visited[i].y] = null;
+            }
+
+            var Value = HexNodeArray[(int)Visited[0].x, (int)Visited[0].y].Value;
+            if (Value != 3)
+            {
+                HexNodeArray[(int)Visited[0].x, (int)Visited[0].y].SetValue(Value + 1);
+                HexNodeArray[(int)Visited[0].x, (int)Visited[0].y].SpriteChanger(Value + 1);
             }
         }
-        
-        if (!Visited.Contains(index + BottomRight()))
-        {
-            if ((index + BottomRight()) >= 0 && (index + BottomRight()) <= 24)
-            {
-                if (HexNodeArray[index + BottomRight()] != null)
-                {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + BottomRight()].Value)
-                    {
-                        //Debug.Log("VISITED = " + Visited[index+BottomRight()]);
-                        SearchNeighbours(index + BottomRight());
-                    }
-                }
-            }
-        }
-        
-        if (!Visited.Contains(index + BottomLeft()))
-        {
-            if ((index + BottomLeft()) >= 0 && (index + BottomLeft()) <= 24)
-            {
-                if (HexNodeArray[index + BottomLeft()] != null)
-                {
-                    if (HexNodeArray[index].Value == HexNodeArray[index + BottomLeft()].Value)
-                    {
-                        //Debug.Log("VISITED = " + Visited[index+BottomLeft()]);
-                        SearchNeighbours(index + BottomLeft());
-                    }
-                }
-            }
-        }
-        //else
-        //{
-        //    return;
-        //}
         return;
     }
 
+    public void SearchNeighbours(HexNode Hex)
+    {
+        var x = (int)Hex.GetXY().x;
+        var y = (int)Hex.GetXY().y;
 
+        if (HexNodeArray[x, y] == null)
+        {
+            return;
+        }
+
+        RowChecker(Hex);
+
+        Visited.Add(Hex.GetXY());
+
+        if (!Visited.Contains(Hex.GetXY() + Left()))
+        {
+            if ((x + Left().x) >= 0  && (x + Left().x) <= 4)
+            {
+                if ((y + Left().y) >= 0 && (y + Left().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)Left().x, y + (int)Left().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)Left().x, y + (int)Left().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)Left().x, y + (int)Left().y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!Visited.Contains(Hex.GetXY() + TopLeft()))
+        {
+            if ((x + TopLeft().x) >= 0 && (x + TopLeft().x) <= 4)
+            {
+                if ((y + TopLeft().y) >= 0 && (y + TopLeft().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)TopLeft().x, y + (int)TopLeft().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)TopLeft().x, y + (int)TopLeft().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)TopLeft().x, y + (int)TopLeft().y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!Visited.Contains(Hex.GetXY() + TopRight()))
+        {
+            if ((x + TopRight().x) >= 0 && (x + TopRight().x) <= 4)
+            {
+                if ((y + TopRight().y) >= 0 && (y + TopRight().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)TopRight().x, y + (int)TopRight().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)TopRight().x, y + (int)TopRight().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)TopRight().x, y + (int)TopRight().y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!Visited.Contains(Hex.GetXY() + Right()))
+        {
+            if ((x + Right().x) >= 0 && (x + Right().x) <= 4)
+            {
+                if ((y + Right().y) >= 0 && (y + Right().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)Right().x, y + (int)Right().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)Right().x, y + (int)Right().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)Right().x, y + (int)Right().y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!Visited.Contains(Hex.GetXY() + BottomRight()))
+        {
+            if ((x + BottomRight().x) >= 0 && (x + BottomRight().x) <= 4)
+            {
+                if ((y + BottomRight().y) >= 0 && (y + BottomRight().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)BottomRight().x, y + (int)BottomRight().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)BottomRight().x, y + (int)BottomRight().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)BottomRight().x, y + (int)BottomRight().y]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!Visited.Contains(Hex.GetXY() + BottomLeft()))
+        {
+            if ((x + BottomLeft().x) >= 0 && (x + BottomLeft().x) <= 4)
+            {
+                if ((y + BottomLeft().y) >= 0 && (y + BottomLeft().y) <= 4)
+                {
+                    if (HexNodeArray[x + (int)BottomLeft().x, y + (int)BottomLeft().y] != null)
+                    {
+                        if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)BottomLeft().x, y + (int)BottomLeft().y].Value)
+                        {
+                            SearchNeighbours(HexNodeArray[x + (int)BottomLeft().x, y + (int)BottomLeft().y]);
+                        }
+                    }
+                }
+            }
+        }
+        return;
+    }
 }

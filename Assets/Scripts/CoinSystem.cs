@@ -6,12 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObject/CoinSystemSO", fileName = "CoinSystem")]
 public class CoinSystem : ScriptableObject
 {
-
     public int Coins;
-    
+
     public void SetCoins(int _coins)
     {
         Coins += _coins;
+    }
+    public void SetPrefCoins(int _coins)
+    {
+        Coins = _coins;
     }
     public int GetCoins()
     {

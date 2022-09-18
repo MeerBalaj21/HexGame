@@ -11,6 +11,12 @@ public class Skips : ScriptableObject
     {
         SkipCount += _skip;
     }
+
+    public void SetPrefSkips(int _skip)
+    {
+        SkipCount = _skip;
+    }
+
     public int GetSkips()
     {
         return SkipCount;

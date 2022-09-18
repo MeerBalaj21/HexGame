@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IAPInProgress: 0
   IAPItemss:
-  - {fileID: 11400000, guid: e60fdacfe8d5e44988454abb177bc0db, type: 2}
-  - {fileID: 11400000, guid: 6f497f201358546eabe51a589550f61d, type: 2}
   - {fileID: 11400000, guid: 5b52a5164de4c42d7a12f6f6ef72045d, type: 2}
+  - {fileID: 11400000, guid: 6f497f201358546eabe51a589550f61d, type: 2}
+  - {fileID: 11400000, guid: e60fdacfe8d5e44988454abb177bc0db, type: 2}
   - {fileID: 11400000, guid: b4320d22e72f24454807aac03c48e2bc, type: 2}
   FakeStoreUIMode: 0

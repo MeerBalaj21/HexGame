@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RemoveAdsIAP
   m_EditorClassIdentifier: 
   SKU: com.thunderzone.eye.noads
-  Title: Remove Ads
+  Title: Remove free
   Price: 2.99
   ProductType: 1
   RewardType:

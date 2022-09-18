@@ -10,24 +10,26 @@ public class BuyButton : MonoBehaviour, IItemPurchase
     public IAPStore Store;
     public TMP_Text TextPrice;
     public TMP_Text TextBanner;
-    //public TMP_Text TextAmount;
-
-
+    public PopUpsSO PopUp;
 
     public void Start()
     {
         TextPrice.SetText(Items.Price.ToString());
         TextBanner.SetText(Items.Title);
-        //TextAmount.SetText(I)
     }
     public void PurchaseFail(IAPItems iAPItem)
     {
-        
+        PopUp.EnablePopUp("Purchase Fail");
     }
 
     public void PurchaseSuccess(IAPItems iAPItem)
     {
+        PopUp.EnablePopUp("Purchase Success");
         RewardGiver.GiveReward(iAPItem);
+        if(iAPItem.ProductType == UnityEngine.Purchasing.ProductType.NonConsumable)
+        {
+            transform.gameObject.SetActive(false);
+        }
     }
 
     public void Buy()
