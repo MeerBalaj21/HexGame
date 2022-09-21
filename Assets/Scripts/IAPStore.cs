@@ -51,7 +51,13 @@ public class IAPStore : ScriptableObject, IStoreListener
 
     public bool PurchaseItemWithId(string id, IItemPurchase purchaseListener)
     {
-        if (!IsInitialized) return false;
+        if (!IsInitialized)
+        {
+            PopUp.EnablePopUp("Store not available");
+            return false;
+
+        }
+
         if (_purchaseListener != null) return false;
         _purchaseListener = purchaseListener;
         _storeController.InitiatePurchase(id);
@@ -129,7 +135,7 @@ public class IAPStore : ScriptableObject, IStoreListener
         return PurchaseProcessingResult.Complete;
     }
 
-    public void RestorePurchases()
+    public bool RestorePurchases()
     {
 
         //_purchaseListener = purchaseListener;
@@ -138,20 +144,33 @@ public class IAPStore : ScriptableObject, IStoreListener
             case RuntimePlatform.Android:
                 if (!IsInitialized)
                 {
-                    PopUp.EnablePopUp("Restore unsuccessful");
-                    return;
+                    //PopUp.EnablePopUp("Restore unsuccessful");
+                    return false;
                 }
                 else
                 {
                     Debug.LogError("RESTORE SUCCESSFULL");
                     _extensionProvider.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions(OnTransactionsRestored);
-                    PopUp.EnablePopUp("Restore Successful");
+                    //PopUp.EnablePopUp("Restore Successful");
+                    return true;
                 }
 
                 break;
             default:
                 Debug.LogWarning($"[WARN][IAP] {Application.platform} is not supported.");
+                return false;
                 break;
+        }
+    }
+    public void RestorePopup()
+    {
+        if (RestorePurchases())
+        {
+            PopUp.EnablePopUp("Restore Successful");
+        }
+        else
+        {
+            PopUp.EnablePopUp("Restore Failed");
         }
     }
 

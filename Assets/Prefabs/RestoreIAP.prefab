@@ -794,7 +794,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
         m_TargetAssemblyTypeName: IAPStore, Assembly-CSharp
-        m_MethodName: RestorePurchases
+        m_MethodName: RestorePopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
