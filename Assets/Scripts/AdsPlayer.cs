@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AdsPlayer : MonoBehaviour, IAds
 {
+    public PopUpsSO PopUp;
     private const string MaxKey = "hlKffQFn1sKXRefAUUKG4o-i-OOURETonfImCKvE29oyDwftIiyhVZMlNNxwUFl8NgUmynX33XOEq5m09yb34Z";
     private const string RewardedAdUnit = "585f249ad115c420";
     private const string InterstitialAdUnit = "7d62e5180461f57a";
@@ -56,11 +57,26 @@ public class AdsPlayer : MonoBehaviour, IAds
 
     public void IAD()
     {
-        MaxSdk.ShowInterstitial(InterstitialAdUnit);
+        if(!MaxSdk.IsInitialized())
+        {
+            PopUp.EnablePopUp("No Ads Available");
+        }
+        else
+        {
+            MaxSdk.ShowInterstitial(InterstitialAdUnit);
+        }
     }
     public void RAD()
     {
-        MaxSdk.ShowRewardedAd(RewardedAdUnit);
+        if (!MaxSdk.IsInitialized())
+        {
+            PopUp.EnablePopUp("No Ads Available");
+        }
+        else
+        {
+            MaxSdk.ShowRewardedAd(RewardedAdUnit);
+        }
+        
     }
 
     public IEnumerator ShowInterstitialAd()

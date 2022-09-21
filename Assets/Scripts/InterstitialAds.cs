@@ -6,6 +6,7 @@ using System;
 [CreateAssetMenu(menuName = "ScriptableObject/InterstitialSO", order = 1, fileName = "InterstitialAd")]
 public class InterstitialAds : ScriptableObject
 {
+    //public PopUpsSO PopUp;
     IAds _interAdListener;
     string adUnitId = "7d62e5180461f57a";
     public NoAds Ads;
@@ -80,6 +81,7 @@ public class InterstitialAds : ScriptableObject
 
     private void OnInterstitialLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
     {
+        //PopUp.EnablePopUp("Ad not available");
         // Interstitial ad failed to load 
         // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds)
         //Debug.LogError("OnInterstitialLoadFailedEvent");
@@ -98,6 +100,7 @@ public class InterstitialAds : ScriptableObject
     {
         //Debug.LogError("OnInterstitialAdFailedToDisplayEvent");
         // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
+        //PopUp.EnablePopUp("Ads not available");
         LoadInterstitial();
     }
 

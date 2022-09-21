@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Inputs : MonoBehaviour, IInputState
 {
-    private Vector2 _startTouchPos, _endTouchPos;
+    private Vector2 _startTouchPos, _endTouchPos, _startMovePos;
     private float _dist;
     private InputState _state;
     protected IInput _input;
     private Touch _touch;
-    //private bool _isDraggable;
+    public Flags Flag;
     public Camera _cam;
 
     private void Start()
@@ -29,28 +29,37 @@ public class Inputs : MonoBehaviour, IInputState
 
     private void Update()
     {
-        if(Input.touchCount > 0)
+        if(Flag.InputFlag != true)
         {
-            _touch = Input.GetTouch(0);
-            if (_touch.phase == TouchPhase.Began)
+            if(Input.touchCount > 0)
             {
-
-                _dist = Vector2.Distance(_startTouchPos,_cam.ScreenToWorldPoint(_touch.position));
-                if(_dist < 1.5f)
+                _touch = Input.GetTouch(0);
+                _startMovePos = _cam.ScreenToWorldPoint(_touch.position);
+                if (_touch.phase == TouchPhase.Began)
                 {
-                    _state.Begin(_touch);
 
+                    _dist = Vector2.Distance(_startTouchPos,_cam.ScreenToWorldPoint(_touch.position));
+                    if(_dist < 1.5f)
+                    {
+                        
+                        _state.Begin(_touch);
+                    }
                 }
-            }
-            else if (_touch.phase == TouchPhase.Moved)
-            {
-                _state.Move(_touch);
-            }
-            else if (_touch.phase == TouchPhase.Ended)
-            {
-                _state.End(_touch);
-            }
+                else if (_touch.phase == TouchPhase.Moved)
+                {
+                    _state.Move(_touch);
+                    //var tempDistance = Vector2.Distance(_startMovePos, _cam.ScreenToWorldPoint(_touch.position));
+                    //if (_dist < 1.5f && tempDistance < 1.5f)
+                    //{
+                    //    _state.Move(_touch);
+                    //}
+                }
+                else if (_touch.phase == TouchPhase.Ended)
+                {
+                    _state.End(_touch);
+                }
 
+            }
         }
         
     }

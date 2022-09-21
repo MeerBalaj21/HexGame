@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db7722b9f726342f88de3f6379f32cf5, type: 3}
   m_Name: IAPStore
   m_EditorClassIdentifier: 
+  PopUp: {fileID: 11400000, guid: dee92b1451217445da092d2fab477522, type: 2}
   IAPInProgress: 0
+  InterAds: {fileID: 11400000, guid: e6d59016f062a404ba119f378295f0b8, type: 2}
   IAPItemss:
   - {fileID: 11400000, guid: 5b52a5164de4c42d7a12f6f6ef72045d, type: 2}
   - {fileID: 11400000, guid: 6f497f201358546eabe51a589550f61d, type: 2}
   - {fileID: 11400000, guid: e60fdacfe8d5e44988454abb177bc0db, type: 2}
   - {fileID: 11400000, guid: b4320d22e72f24454807aac03c48e2bc, type: 2}
   FakeStoreUIMode: 0
+  RewardHandler: {fileID: 11400000, guid: b0d01db8b2bbe4f4f820b5baefa878be, type: 2}

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbe617cfd03c48d2932333d1a99cee4, type: 3}
   m_Name: RewardedAd
   m_EditorClassIdentifier: 
+  PopUp: {fileID: 11400000, guid: dee92b1451217445da092d2fab477522, type: 2}
   Skip: {fileID: 11400000, guid: 4dbaad6214e1344a0aa091f680b6d2fc, type: 2}
   InterstitialAd: {fileID: 11400000, guid: e6d59016f062a404ba119f378295f0b8, type: 2}

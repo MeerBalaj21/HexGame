@@ -43,7 +43,7 @@ public class HexNode : MonoBehaviour
     }
     public void SortLayerOrder()
     {
-        _sP.sortingOrder = 2;
+        _sP.sortingOrder = 5;
     }
     public void ResetLayerOrder()
     {

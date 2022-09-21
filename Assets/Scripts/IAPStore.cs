@@ -7,16 +7,18 @@ using UnityEngine.Purchasing;
 [CreateAssetMenu(menuName = "ScriptableObject/IAPStoreSO", fileName = "IAPStore")]
 public class IAPStore : ScriptableObject, IStoreListener
 {
+    public PopUpsSO PopUp;
     public bool IAPInProgress;
-    [SerializeField] public List<IAPItems> IAPItemss;
-    [SerializeField] private FakeStoreUIMode FakeStoreUIMode;
+    public InterstitialAds InterAds;
     IStoreController _controller;
     IExtensionProvider _extensionProvider;
+    [SerializeField] public List<IAPItems> IAPItemss;
+    [SerializeField] private FakeStoreUIMode FakeStoreUIMode;
     [NonSerialized] private ConfigurationBuilder _configurationBuilder;
     [NonSerialized] private IStoreController _storeController; //_controller
     [NonSerialized] private StandardPurchasingModule _purchasingModule;
     [NonSerialized] private IItemPurchase _purchaseListener;
-
+    [SerializeField] private RewardHandler RewardHandler;
     public bool IsInitialized
     {
         get
@@ -32,6 +34,7 @@ public class IAPStore : ScriptableObject, IStoreListener
         if (!IsInitialized)
         {
             UnityPurchasing.Initialize(this, _configurationBuilder);
+          
         }
     }
 
@@ -107,20 +110,44 @@ public class IAPStore : ScriptableObject, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
+        var reward = GetIAPItems(purchaseEvent.purchasedProduct.definition.id);
         Debug.LogError($"[INFO][IAP] Product purchased. Product: {purchaseEvent.purchasedProduct.definition.id}.");
-        _purchaseListener?.PurchaseSuccess(GetIAPItems(purchaseEvent.purchasedProduct.definition.id));
+
+        if (_purchaseListener == null)
+        {
+            RewardHandler.GiveReward(reward);
+        }
+        else
+        {
+            _purchaseListener?.PurchaseSuccess(reward);
+        }
 
         _purchaseListener = null;
         IAPInProgress = false;
+        var time = InterAds.GetTimer();
+        InterAds.SetLastAdTimer(time);
         return PurchaseProcessingResult.Complete;
     }
 
     public void RestorePurchases()
     {
+
+        //_purchaseListener = purchaseListener;
         switch (Application.platform)
         {
             case RuntimePlatform.Android:
-                _extensionProvider.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions(OnTransactionsRestored);
+                if (!IsInitialized)
+                {
+                    PopUp.EnablePopUp("Restore unsuccessful");
+                    return;
+                }
+                else
+                {
+                    Debug.LogError("RESTORE SUCCESSFULL");
+                    _extensionProvider.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions(OnTransactionsRestored);
+                    PopUp.EnablePopUp("Restore Successful");
+                }
+
                 break;
             default:
                 Debug.LogWarning($"[WARN][IAP] {Application.platform} is not supported.");
@@ -130,7 +157,7 @@ public class IAPStore : ScriptableObject, IStoreListener
 
     void OnTransactionsRestored(bool success)
     {
-        Debug.Log("[INFO][IAP] Restore Transactions completed.");
+        Debug.LogError($"[INFO][IAP] Restore Transactions completed. {success}");
     }
 
     public ProductCollection products => throw new NotImplementedException();

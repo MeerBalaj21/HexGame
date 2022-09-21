@@ -6,6 +6,7 @@ using System;
 [CreateAssetMenu(menuName = "ScriptableObject/RewardedSO", order = 1, fileName = "RewardedAd")]
 public class RewardedAd : ScriptableObject
 {
+    //public PopUpsSO PopUp;
     IAds _interAdListener;
     public Skips Skip;
     string adUnitId = "585f249ad115c420";
@@ -71,7 +72,7 @@ public class RewardedAd : ScriptableObject
         else
         {
             LoadRewardedAd();
-            AdListener.AdClosed();
+            //AdListener.AdClosed();
         }
     }
     private void LoadRewardedAd()
@@ -92,6 +93,7 @@ public class RewardedAd : ScriptableObject
         // Rewarded ad failed to load 
         // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
         //Debug.LogError("OnRewardedAdLoadFailedEvent");
+        //PopUp.EnablePopUp("Ad not available");
         retryAttempt++;
         double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
 
@@ -108,6 +110,7 @@ public class RewardedAd : ScriptableObject
     {
         // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
         //Debug.LogError("OnRewardedAdFailedToDisplayEvent");
+        //PopUp.EnablePopUp("Ads not available");
         LoadRewardedAd();
     }
 

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ab9a1ac9d7ad4aad83eea8331d6e003, type: 3}
-  m_Name: Skips
+  m_Script: {fileID: 11500000, guid: d147b6089282a430185c19d90d6f14a2, type: 3}
+  m_Name: FailCondition
   m_EditorClassIdentifier: 
-  SkipCount: 0
+  Fail: 0

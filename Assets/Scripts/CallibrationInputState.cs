@@ -16,13 +16,18 @@ public class CallibrationInputState : InputState
 
     public override void End(Touch touch)
     {
-        Input.Tap(touch);
-        Debug.Log("tapped");
-        Listener.ChangeState(new IdleInputState(this.Listener, this.Input));
+        if (Mathf.Abs(touch.deltaPosition.x) < 1.5f && Mathf.Abs(touch.deltaPosition.y) < 1.5f)
+        {
+            Input.Tap(touch);
+            Debug.Log("tapped");
+            Listener.ChangeState(new IdleInputState(this.Listener, this.Input));
+        }
     }
 
     public override void Move(Touch touch)
     {
-        Listener.ChangeState(new MovingInputState(this.Listener, this.Input));
+        Debug.LogError(touch.deltaPosition);
+        if (Mathf.Abs(touch.deltaPosition.x) >= 1.5f && Mathf.Abs(touch.deltaPosition.y) >= 1.5f)
+            Listener.ChangeState(new MovingInputState(this.Listener, this.Input));
     }
 }

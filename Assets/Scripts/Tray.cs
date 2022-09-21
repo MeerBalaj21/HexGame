@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class Tray : MonoBehaviour, IInput, IAds
 {
+    public FailCondition Fail;
+    public Flags Flag;
+    public PopUpsSO PopUp;
+
     private Vector2 _startPos;
     private Vector2 _endPos;
-    private Vector2 _defaultPos = new Vector2(2f,-4.75f);
+    private Vector2 _defaultPos;
     private Vector2 _BaseTrayPos;
     private Vector2 _lastPos;
     private Vector2 _CheckCondtion;
     private Vector2 _childPos, _childTwoPos;
+
     private GameObject _child;
     private GameObject _childTwo;
-    public LevelGeneration LevelGenerator;
+    public GameObject ParentPanel;
+    public GameObject SkipPopUp;
     public GameObject SpawnCircleArrowOne;
     public GameObject SpawnCircleArrowTwo;
+
     public RewardedAd RewardedAds;
+    public LevelGeneration LevelGenerator;
     public SearchDirection searchDirection;
     public Skips Skip;
+
     [SerializeField] private GameObject _hex;
     [SerializeField] private Camera _cam;
     [SerializeField] private HexNode H1;
@@ -28,7 +37,8 @@ public class Tray : MonoBehaviour, IInput, IAds
     {
         _CheckCondtion = new Vector3(-1, -1, -1);
         _BaseTrayPos = new Vector2(2, -4.75f);
-        
+        _defaultPos = new Vector2(2f, -4.75f);
+        Fail.Fail = false;
         HexSpawner();
         searchDirection.Initialise();
     }
@@ -109,6 +119,19 @@ public class Tray : MonoBehaviour, IInput, IAds
         transform.position = _endPos;
     }
 
+    public void GridFull()
+    {
+        foreach (var pair in LevelGenerator.HexDic)
+        {
+            if(pair.Value.IsGrab == false)
+            {
+                Fail.Fail = false;
+                return;
+            }
+            Fail.Fail = true;
+        }
+    }
+
     public void Snap(Touch touch)
     {
         if (transform.childCount == 1)
@@ -118,7 +141,7 @@ public class Tray : MonoBehaviour, IInput, IAds
             if (_lastPos != _CheckCondtion)
             {
                 childTemp.position = _lastPos;
-                foreach(var i in LevelGenerator.HexDic)
+                foreach (var i in LevelGenerator.HexDic)
                 {
                     if (i.Value._locations == _lastPos)
                     {
@@ -165,14 +188,10 @@ public class Tray : MonoBehaviour, IInput, IAds
             childTemp.position = _lastPos - delta;
             childTwoTemp.position = _lastPos;
 
-            Debug.LogError("Last postion: " + _lastPos);
-            Debug.LogError("Last postion - delta: " + (_lastPos - delta));
-
             foreach (var i in LevelGenerator.HexDic)
             {
                 if ((i.Value._locations - _lastPos).magnitude < 0.1f)
                 {
-                    Debug.LogError("pehla if");
                     childTwoTemp.GetComponent<HexNode>().SetXY(i.Value.GetXY());
                     break;
                 }
@@ -181,7 +200,6 @@ public class Tray : MonoBehaviour, IInput, IAds
             {
                 if ((i.Value._locations - (_lastPos - delta)).magnitude < 0.1f)
                 {
-                    Debug.LogError("dusra if");
                     childTemp.GetComponent<HexNode>().SetXY(i.Value.GetXY());
                     break;
                 }
@@ -212,12 +230,18 @@ public class Tray : MonoBehaviour, IInput, IAds
             searchDirection.Visited.Clear();
             searchDirection.SearchNeighbours(childTwoTemp.GetComponent<HexNode>());
             searchDirection.Merge();
+
         }
         else
         {
             Drop(touch);
         }
         
+    }
+
+    public void Update()
+    {
+        GridFull();
     }
 
     public void HexSpawner()
@@ -247,10 +271,15 @@ public class Tray : MonoBehaviour, IInput, IAds
                 RotateTile();
             }
 
+
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
             Hex.GetComponent<HexNode>().SetValue(randomHex);
+ 
             HexTwo.GetComponent<HexNode>().SpriteChanger(randomHexTwo);
             HexTwo.GetComponent<HexNode>().SetValue(randomHexTwo);
+
+            Hex.GetComponent<HexNode>().SortLayerOrder();
+            HexTwo.GetComponent<HexNode>().SortLayerOrder();
 
             Hex.transform.localPosition = new Vector2(-0.5f, 0f);
             HexTwo.transform.localPosition = new Vector2(0.5f, 0f);
@@ -264,6 +293,7 @@ public class Tray : MonoBehaviour, IInput, IAds
             Hex.transform.SetParent(this.transform);
             Hex.GetComponent<HexNode>().SpriteChanger(randomHex);
             Hex.GetComponent<HexNode>().SetValue(randomHex);
+            Hex.GetComponent<HexNode>().SortLayerOrder();
             Hex.transform.localPosition = new Vector2(0f, 0f);
 
         }
@@ -277,7 +307,6 @@ public class Tray : MonoBehaviour, IInput, IAds
         if (transform.childCount == 1)
         {
             _child.transform.rotation = Quaternion.identity;
-
         }
         else
         {
@@ -319,16 +348,38 @@ public class Tray : MonoBehaviour, IInput, IAds
 
     }
 
-    public void SkipB()
+    public void SkipFunction()
     {
-        if (Skip.GetSkips() == 0)
+        if(Skip.GetSkips() == 0 )
         {
-            RewardedAds.ShowAd(this);
+            Flag.InputFlag = true;
+            ParentPanel.SetActive(true);
+            SkipPopUp.SetActive(true);
         }
-        else
+        else if(Skip.GetSkips() > 0)
         {
             SkipTile();
         }
+    }
+
+    public void SkipCancel()
+    {
+        Flag.InputFlag = false;
+        SkipPopUp.SetActive(false);
+        ParentPanel.SetActive(false);
+    }
+
+    public void SkipB()
+    {
+        if(Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            PopUp.EnablePopUp("Ad Not Available");
+        }
+        else
+        {
+            RewardedAds.ShowAd(this);
+        }
+        SkipCancel();
     }
 
     public void AdShown()
@@ -338,6 +389,7 @@ public class Tray : MonoBehaviour, IInput, IAds
 
     public void AdClosed()
     {
-        SkipTile(); 
+        //SkipTile();
+        Skip.SetSkips(1);
     }
 }

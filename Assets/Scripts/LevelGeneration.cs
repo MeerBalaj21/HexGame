@@ -29,7 +29,7 @@ public class LevelGeneration : MonoBehaviour
                 {
                     Vector2 loc = pair.Value._locations;
                     pair.Value.SetGrab();
-                    pair.Value.transform.GetChild(0).gameObject.SetActive(false); //highlight green boundary
+                    pair.Value.transform.GetChild(0).gameObject.SetActive(false);
                     return loc;
                 }
             }

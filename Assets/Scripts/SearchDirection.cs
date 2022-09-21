@@ -133,6 +133,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)Left().x, y + (int)Left().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)Left().x, y + (int)Left().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }
@@ -150,6 +151,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)TopLeft().x, y + (int)TopLeft().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)TopLeft().x, y + (int)TopLeft().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }
@@ -167,6 +169,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)TopRight().x, y + (int)TopRight().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)TopRight().x, y + (int)TopRight().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }
@@ -184,6 +187,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)Right().x, y + (int)Right().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)Right().x, y + (int)Right().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }
@@ -201,6 +205,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)BottomRight().x, y + (int)BottomRight().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)BottomRight().x, y + (int)BottomRight().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }
@@ -218,6 +223,7 @@ public class SearchDirection: MonoBehaviour
                         if (HexNodeArray[x, y].Value == HexNodeArray[x + (int)BottomLeft().x, y + (int)BottomLeft().y].Value)
                         {
                             SearchNeighbours(HexNodeArray[x + (int)BottomLeft().x, y + (int)BottomLeft().y]);
+                            RowChecker(Hex);
                         }
                     }
                 }

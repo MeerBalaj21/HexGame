@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "988b5a483241363957",
         "name": "com.thunderzone.eye",
-        "processId": 9056,
+        "processId": 23356,
         "exited": false
     },
     "m_SelectedPriority": 1,
@@ -46,32 +46,38 @@
         },
         {
             "deviceId": "988b5a483241363957",
-            "name": "com.DefaultCompany.HexGame",
-            "processId": 4297,
+            "name": "com.sec.android.app.launcher",
+            "processId": 3473,
             "exited": true
         },
         {
             "deviceId": "988b5a483241363957",
             "name": "com.thunderzone.eye",
-            "processId": 32416,
+            "processId": 8057,
+            "exited": true
+        },
+        {
+            "deviceId": "988b5a483241363957",
+            "name": "com.sec.android.app.launcher",
+            "processId": 3623,
+            "exited": false
+        },
+        {
+            "deviceId": "988b5a483241363957",
+            "name": "com.thunderzone.eye",
+            "processId": 21001,
             "exited": true
         },
         {
             "deviceId": "988b5a483241363957",
             "name": "com.thunderzone.eye",
-            "processId": 7574,
+            "processId": 22547,
             "exited": true
         },
         {
             "deviceId": "988b5a483241363957",
             "name": "com.thunderzone.eye",
-            "processId": 13615,
-            "exited": true
-        },
-        {
-            "deviceId": "988b5a483241363957",
-            "name": "com.thunderzone.eye",
-            "processId": 9056,
+            "processId": 23356,
             "exited": false
         }
     ],

@@ -3829,6 +3829,9 @@ MonoBehaviour:
   Store: {fileID: 11400000, guid: 7f00a1c78115e42c89ce8dee73c59d8c, type: 2}
   Parent: {fileID: 463071976}
   Ads: {fileID: 11400000, guid: 7831f12aa54084031887d56f70c91f4f, type: 2}
+  RestoreIAP: {fileID: 4354562217226403793, guid: b3eb19c13557c490fbd3d5a78bb80990, type: 3}
+  RV: {fileID: 7954857942363029466, guid: 52d16c33a0ebc4007839da59b67e8d7d, type: 3}
+  ScrollRect: {fileID: 1897168072}
 --- !u!1 &1413899078
 GameObject:
   m_ObjectHideFlags: 0
@@ -5659,6 +5662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5374858328553203535, guid: 06565333c803141c39eeb8668d75e05c, type: 3}
+      propertyPath: Flag
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b40411f16d1c464ca2f7b36f1266f1d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06565333c803141c39eeb8668d75e05c, type: 3}
 --- !u!1001 &5635729895230045832

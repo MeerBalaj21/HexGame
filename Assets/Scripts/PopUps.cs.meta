@@ -3,7 +3,11 @@ guid: 9d965a1254a1140c293de926519b3e61
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Flag: {fileID: 11400000, guid: 1b40411f16d1c464ca2f7b36f1266f1d, type: 2}
+  - PopUpPanel: {instanceID: 0}
+  - PopupText: {instanceID: 0}
+  - PopUp: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

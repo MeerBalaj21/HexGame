@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PopUps : MonoBehaviour
 {
-    // public PopUpSo PopUp;
+    public Flags Flag;
     public GameObject PopUpPanel;
     public TMP_Text PopupText;
     public PopUpsSO PopUp;
@@ -29,10 +29,12 @@ public class PopUps : MonoBehaviour
     }
     public void DisablePopUp()
     {
+        Flag.InputFlag = false;
         PopUpPanel.SetActive(false);
     }
     public void EnablePopup()
     {
+        Flag.InputFlag = true;
         PopUpPanel.transform.gameObject.SetActive(true);
         Debug.LogError("enable");
     }
